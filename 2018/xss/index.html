@@ -46,7 +46,9 @@
     "articleSection" : "posts",
     "name" : "XSS 相关",
     "headline" : "XSS 相关",
-    "description" : " xss 原理 xss 防御 xss 绕过 xss Fuzz ",
+    "description" : " XSS 原理 1. 什么是 XSS 跨站脚本(Cross-Site-Script, XSS): 既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。 xss 的整个过程如下图：
+2. XSS 成因 假设一个网页代码
+3. XSS 分类 XSS 防御 XSS 绕过 XSS Fuzz XSS 工具 ",
     "inLanguage" : "en-us",
     "author" : "Fkbug",
     "creator" : "Fkbug",
@@ -57,7 +59,7 @@
     "datePublished": "2018-10-13 22:04:55 &#43;0800 CST",
     "dateModified" : "2018-10-13 22:04:55 &#43;0800 CST",
     "url" : "https://gkfnf.github.io/2018/xss/",
-    "wordCount" : "8",
+    "wordCount" : "35",
     "keywords" : [  "Fkbug"]
 }
 </script>
@@ -144,13 +146,27 @@
 
           
 
-<h2 id="xss-原理">xss 原理</h2>
+<h2 id="xss-原理">XSS 原理</h2>
 
-<h2 id="xss-防御">xss 防御</h2>
+<h3 id="1-什么是-xss">1. 什么是 XSS</h3>
 
-<h2 id="xss-绕过">xss 绕过</h2>
+<p>跨站脚本(Cross-Site-Script, XSS):
+既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。
+xss 的整个过程如下图：</p>
 
-<h2 id="xss-fuzz">xss Fuzz</h2>
+<h3 id="2-xss-成因">2. XSS 成因</h3>
+
+<p>假设一个网页代码</p>
+
+<h3 id="3-xss-分类">3. XSS 分类</h3>
+
+<h2 id="xss-防御">XSS 防御</h2>
+
+<h2 id="xss-绕过">XSS 绕过</h2>
+
+<h2 id="xss-fuzz">XSS Fuzz</h2>
+
+<h2 id="xss-工具">XSS 工具</h2>
 
     </div>
 

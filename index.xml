@@ -17,13 +17,27 @@
       <guid>https://gkfnf.github.io/2018/xss/</guid>
       <description>
 
-&lt;h2 id=&#34;xss-原理&#34;&gt;xss 原理&lt;/h2&gt;
+&lt;h2 id=&#34;xss-原理&#34;&gt;XSS 原理&lt;/h2&gt;
 
-&lt;h2 id=&#34;xss-防御&#34;&gt;xss 防御&lt;/h2&gt;
+&lt;h3 id=&#34;1-什么是-xss&#34;&gt;1. 什么是 XSS&lt;/h3&gt;
 
-&lt;h2 id=&#34;xss-绕过&#34;&gt;xss 绕过&lt;/h2&gt;
+&lt;p&gt;跨站脚本(Cross-Site-Script, XSS):
+既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。
+xss 的整个过程如下图：&lt;/p&gt;
 
-&lt;h2 id=&#34;xss-fuzz&#34;&gt;xss Fuzz&lt;/h2&gt;
+&lt;h3 id=&#34;2-xss-成因&#34;&gt;2. XSS 成因&lt;/h3&gt;
+
+&lt;p&gt;假设一个网页代码&lt;/p&gt;
+
+&lt;h3 id=&#34;3-xss-分类&#34;&gt;3. XSS 分类&lt;/h3&gt;
+
+&lt;h2 id=&#34;xss-防御&#34;&gt;XSS 防御&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-绕过&#34;&gt;XSS 绕过&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-fuzz&#34;&gt;XSS Fuzz&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-工具&#34;&gt;XSS 工具&lt;/h2&gt;
 </description>
     </item>
     
