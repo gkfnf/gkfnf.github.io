@@ -46,8 +46,9 @@
     "articleSection" : "posts",
     "name" : "XSS 相关",
     "headline" : "XSS 相关",
-    "description" : " XSS 原理 1. 什么是 XSS 跨站脚本(Cross-Site-Script, XSS): 既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。 xss 的整个过程如下图：
-2. XSS 成因 假设一个网页代码
+    "description" : " XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
+ 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞、 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
+一个 XSS 的攻击流程可能如下： 2. XSS 成因 假设一个网页代码
 3. XSS 分类 XSS 防御 XSS 绕过 XSS Fuzz XSS 工具 ",
     "inLanguage" : "en-us",
     "author" : "Fkbug",
@@ -59,7 +60,7 @@
     "datePublished": "2018-10-13 22:04:55 &#43;0800 CST",
     "dateModified" : "2018-10-13 22:04:55 &#43;0800 CST",
     "url" : "https://gkfnf.github.io/2018/xss/",
-    "wordCount" : "35",
+    "wordCount" : "43",
     "keywords" : [  "Fkbug"]
 }
 </script>
@@ -132,6 +133,8 @@
         
 
         
+            
+        
 
         
         
@@ -150,9 +153,17 @@
 
 <h3 id="1-什么是-xss">1. 什么是 XSS</h3>
 
-<p>跨站脚本(Cross-Site-Script, XSS):
-既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。
-xss 的整个过程如下图：</p>
+<p><strong><code>跨站脚本 (Cross-Site-Script, XSS)：</code></strong></p>
+
+<ul>
+<li>既指由于 Web 应用程序 <strong>对用户输入过滤不足</strong> 而导致网站被注入恶意脚本的漏洞、</li>
+<li>也可以理解成 <strong>攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中</strong> 的攻击手段.</li>
+</ul>
+
+<p>当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 <strong>Cookie 窃取、会话劫持、钓鱼欺骗</strong> 等问题。</p>
+
+<p><code>一个 XSS 的攻击流程可能如下：</code>
+<figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/xss_Attack_flow.png" alt="XSS攻击流程" class="lazyload"><figcaption class="image-caption">XSS攻击流程</figcaption></figure></p>
 
 <h3 id="2-xss-成因">2. XSS 成因</h3>
 
@@ -243,8 +254,9 @@ xss 的整个过程如下图：</p>
 
 
     
-    
-    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
     
   
 

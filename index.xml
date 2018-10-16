@@ -21,9 +21,17 @@
 
 &lt;h3 id=&#34;1-什么是-xss&#34;&gt;1. 什么是 XSS&lt;/h3&gt;
 
-&lt;p&gt;跨站脚本(Cross-Site-Script, XSS):
-既指由于 Web 应用程序对用户输入过滤不足而导致网站被注入恶意脚本的漏洞, 也可以理解成攻击者利用网站漏洞把恶意的脚本代码（通常包括 HTML 代码和客户端 Javascript 脚本) 注入到网页之中的攻击手段，当其它用户浏览这些网页时，就会执行其中的恶意代码，对受害用户可能导致 Cookie 被窃取、被会话劫持、或被钓鱼欺骗等后果。
-xss 的整个过程如下图：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;跨站脚本 (Cross-Site-Script, XSS)：&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;既指由于 Web 应用程序 &lt;strong&gt;对用户输入过滤不足&lt;/strong&gt; 而导致网站被注入恶意脚本的漏洞、&lt;/li&gt;
+&lt;li&gt;也可以理解成 &lt;strong&gt;攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中&lt;/strong&gt; 的攻击手段.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 &lt;strong&gt;Cookie 窃取、会话劫持、钓鱼欺骗&lt;/strong&gt; 等问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;一个 XSS 的攻击流程可能如下：&lt;/code&gt;
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Attack_flow.png&#34; alt=&#34;XSS攻击流程&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;2-xss-成因&#34;&gt;2. XSS 成因&lt;/h3&gt;
 
