@@ -403,7 +403,7 @@
 
 &lt;h2 id=&#34;xss-挖掘&#34;&gt;XSS 挖掘&lt;/h2&gt;
 
-&lt;p&gt;根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘思路：&lt;/p&gt;
+&lt;p&gt;根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘流程如下图：&lt;/p&gt;
 
 &lt;h2 id=&#34;xss-绕过&#34;&gt;XSS 绕过&lt;/h2&gt;
 

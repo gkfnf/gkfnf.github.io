@@ -10,5 +10,23 @@
 	<atom:link href="https://gkfnf.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>Web 安全</title>
+      <link>https://gkfnf.github.io/categories/web-%E5%AE%89%E5%85%A8/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://gkfnf.github.io/categories/web-%E5%AE%89%E5%85%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>渗透测试</title>
+      <link>https://gkfnf.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://gkfnf.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
