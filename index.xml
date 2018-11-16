@@ -10,6 +10,229 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Google Hacking</title>
+      <link>https://gkfnf.github.io/2018/google/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://gkfnf.github.io/2018/google/</guid>
+      <description>
+
+&lt;p&gt;##Google 搜索基础知识
+1. 探索 Google 的搜索界面
+2. 建立 Google 查询
+3. 使用 Google URL
+4. 总结
+5. 快速查找解决方案
+6. 网站链接
+7. 常见问题&lt;/p&gt;
+
+&lt;h2 id=&#34;高级操作符&#34;&gt;高级操作符&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在页面标题中搜索&lt;/li&gt;
+&lt;li&gt;在网页内容里查找字符串&lt;/li&gt;
+&lt;li&gt;在 URL 中查找文本&lt;/li&gt;
+&lt;li&gt;把搜索精确到特定的站点&lt;/li&gt;
+&lt;li&gt;搜索指定类型的文件&lt;/li&gt;
+&lt;li&gt;搜索与当前网页存在链接的网页&lt;/li&gt;
+&lt;li&gt;在链接文本中查找文本&lt;/li&gt;
+&lt;li&gt;显示网页的缓存版本&lt;/li&gt;
+&lt;li&gt;搜索数字&lt;/li&gt;
+&lt;li&gt;查找在某个特定日期范围内发布的网页&lt;/li&gt;
+&lt;li&gt;显示 Google 的摘要信息&lt;/li&gt;
+&lt;li&gt;搜索 Groups 中新闻组帖子的作者&lt;/li&gt;
+&lt;li&gt;搜索 Group 标题&lt;/li&gt;
+&lt;li&gt;搜索 Google Group 主题行&lt;/li&gt;
+&lt;li&gt;通过消息 ID 来查找 Group 帖子&lt;/li&gt;
+&lt;li&gt;搜索股票信息&lt;/li&gt;
+&lt;li&gt;显示某个术语的定义&lt;/li&gt;
+&lt;li&gt;搜索电话列表&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;google-hacking-基础&#34;&gt;Google Hacking 基础&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;使用缓存进行匿名浏览&lt;/li&gt;
+&lt;li&gt;目录列表&lt;/li&gt;
+&lt;li&gt;查找目录列表&lt;/li&gt;
+&lt;li&gt;查找特定的目录&lt;/li&gt;
+&lt;li&gt;查找特定的文件&lt;/li&gt;
+&lt;li&gt;服务器的版本&lt;/li&gt;
+&lt;li&gt;遍历技术&lt;/li&gt;
+&lt;li&gt;目录遍历&lt;/li&gt;
+&lt;li&gt;递增置换&lt;/li&gt;
+&lt;li&gt;拓展遍历&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;文档加工与数据库挖掘&#34;&gt;文档加工与数据库挖掘&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;配置文件&lt;/li&gt;
+&lt;li&gt;日志文件&lt;/li&gt;
+&lt;li&gt;数据库挖掘&lt;/li&gt;
+&lt;li&gt;登录入口&lt;/li&gt;
+&lt;li&gt;帮助文件&lt;/li&gt;
+&lt;li&gt;错误消息&lt;/li&gt;
+&lt;li&gt;数据库转储&lt;/li&gt;
+&lt;li&gt;实际的数据库文件&lt;/li&gt;
+&lt;li&gt;自动加工&lt;/li&gt;
+&lt;li&gt;Google 桌面搜索&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;google-在信息收集框架中扮演的角色&#34;&gt;Google 在信息收集框架中扮演的角色&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;自动搜索原则&lt;/li&gt;
+&lt;li&gt;原始搜索关键字&lt;/li&gt;
+&lt;li&gt;扩展搜索关键字&lt;/li&gt;
+&lt;li&gt;从数据源获取数据&lt;/li&gt;
+&lt;li&gt;解析数据&lt;/li&gt;
+&lt;li&gt;后期处理&lt;/li&gt;
+&lt;li&gt;数据挖掘的应用&lt;/li&gt;
+&lt;li&gt;收集搜索关键字&lt;/li&gt;
+&lt;li&gt;在 Web 上收集&lt;/li&gt;
+&lt;li&gt;自行收集&lt;/li&gt;
+&lt;li&gt;甜言蜜语&lt;/li&gt;
+&lt;li&gt;引用者&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;搜索漏洞利用与查找目标&#34;&gt;搜索漏洞利用与查找目标&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;搜索漏洞利用代码&lt;/li&gt;
+&lt;li&gt;通过常见代码字符串搜索漏洞利用&lt;/li&gt;
+&lt;li&gt;使用 Google 代码搜索查找代码&lt;/li&gt;
+&lt;li&gt;搜索恶意软件和可执行文件&lt;/li&gt;
+&lt;li&gt;搜索易受攻击的目标&lt;/li&gt;
+&lt;li&gt;利用演示页面搜索目标&lt;/li&gt;
+&lt;li&gt;利用源代码搜索目标&lt;/li&gt;
+&lt;li&gt;利用 CGI 扫描搜索目标&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;简单有效的安全性搜索&#34;&gt;简单有效的安全性搜索&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;site&lt;/li&gt;
+&lt;li&gt;intitle:index.of&lt;/li&gt;
+&lt;li&gt;error | warning&lt;/li&gt;
+&lt;li&gt;login | logon&lt;/li&gt;
+&lt;li&gt;username | userid | employee.ID| &amp;ldquo;your username is&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;password | passcode | &amp;ldquo;your password is&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;admin | administrator&lt;/li&gt;
+&lt;li&gt;-ext:html -ext:htm -ext:shtml -ext:asp -ext:php&lt;/li&gt;
+&lt;li&gt;inurl:temp | inurl:tmp | inurl:backup | inurl:bak&lt;/li&gt;
+&lt;li&gt;intranel | help.desk&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;跟踪搜索-web-服务器-登录入口和网络硬件&#34;&gt;跟踪搜索 Web 服务器、登录入口和网络硬件&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;定位并剖析 Web 服务器&lt;/li&gt;
+&lt;li&gt;目录列表&lt;/li&gt;
+&lt;li&gt;Web 服务器软件的错误消息&lt;/li&gt;
+&lt;li&gt;应用软件错误消息&lt;/li&gt;
+&lt;li&gt;默认页面&lt;/li&gt;
+&lt;li&gt;默认文档&lt;/li&gt;
+&lt;li&gt;示例程序&lt;/li&gt;
+&lt;li&gt;定位登录入口&lt;/li&gt;
+&lt;li&gt;瞄准使用 Web 的网络设备&lt;/li&gt;
+&lt;li&gt;查找各种网络报告&lt;/li&gt;
+&lt;li&gt;查找网络硬件&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;用户名-口令和其它秘密信息&#34;&gt;用户名、口令和其它秘密信息&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;搜索用户名&lt;/li&gt;
+&lt;li&gt;搜索口令&lt;/li&gt;
+&lt;li&gt;搜索信用卡账号和社保号码等&lt;/li&gt;
+&lt;li&gt;社保号码&lt;/li&gt;
+&lt;li&gt;个人财务数据&lt;/li&gt;
+&lt;li&gt;搜索其它有利可图的信息&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;hacking-google-服务&#34;&gt;Hacking Google 服务&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;AJAX Search API&lt;/li&gt;
+&lt;li&gt;嵌入式 Google AJAX Search API&lt;/li&gt;
+&lt;li&gt;深入了解 AJAX Search&lt;/li&gt;
+&lt;li&gt;攻击 AJAX Search Engine&lt;/li&gt;
+&lt;li&gt;Calendar&lt;/li&gt;
+&lt;li&gt;Blogger 和 Google 的 Blog Search&lt;/li&gt;
+&lt;li&gt;信号警报&lt;/li&gt;
+&lt;li&gt;Google Co-op&lt;/li&gt;
+&lt;li&gt;Google Code&lt;/li&gt;
+&lt;li&gt;SVN&lt;/li&gt;
+&lt;li&gt;在线获取文件&lt;/li&gt;
+&lt;li&gt;查找代码&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;google-hacking-案列&#34;&gt;Google Hacking 案列&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;低级信息&lt;/li&gt;
+&lt;li&gt;工具&lt;/li&gt;
+&lt;li&gt;开放的网络设备&lt;/li&gt;
+&lt;li&gt;开放的应用程序&lt;/li&gt;
+&lt;li&gt;摄像头&lt;/li&gt;
+&lt;li&gt;电话设备&lt;/li&gt;
+&lt;li&gt;电源&lt;/li&gt;
+&lt;li&gt;敏感信息&lt;/li&gt;
+&lt;li&gt;社保号码&lt;/li&gt;
+&lt;li&gt;Google 之外的信息&lt;/li&gt;
+&lt;li&gt;总结&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;防卫-google-黑客&#34;&gt;防卫 Google 黑客&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;完善且坚固的安全策略&lt;/li&gt;
+&lt;li&gt;Web 服务器安全防护&lt;/li&gt;
+&lt;li&gt;目录列表和缺失的索引文件&lt;/li&gt;
+&lt;li&gt;利用 Robots.txt 阻止 Crawler&lt;/li&gt;
+&lt;li&gt;NoARCHIVE: 缓存&amp;rdquo;杀手&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;NOSNIPPET: 去除摘要&lt;/li&gt;
+&lt;li&gt;口令保护机制&lt;/li&gt;
+&lt;li&gt;软件默认设置和程序&lt;/li&gt;
+&lt;li&gt;攻击你自己的站点&lt;/li&gt;
+&lt;li&gt;用 Site 操作符搜索自己的站点&lt;/li&gt;
+&lt;li&gt;Gooscan&lt;/li&gt;
+&lt;li&gt;Windwos 平台下的工具和 .NET 框架&lt;/li&gt;
+&lt;li&gt;Athena&lt;/li&gt;
+&lt;li&gt;Wikto&lt;/li&gt;
+&lt;li&gt;Google Rower&lt;/li&gt;
+&lt;li&gt;Google Site Indexer&lt;/li&gt;
+&lt;li&gt;Advanced Dork&lt;/li&gt;
+&lt;li&gt;从 Google 获取帮助&lt;/li&gt;
+&lt;li&gt;总结&lt;/li&gt;
+&lt;li&gt;快速查找解决方案&lt;/li&gt;
+&lt;li&gt;网站链接&lt;/li&gt;
+&lt;li&gt;常见问题&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
       <title>XSS 相关</title>
       <link>https://gkfnf.github.io/2018/xss/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
@@ -192,15 +415,6 @@
 
 &lt;h2 id=&#34;xss-工具&#34;&gt;XSS 工具&lt;/h2&gt;
 </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://gkfnf.github.io/1/google/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gkfnf.github.io/1/google/</guid>
-      <description></description>
     </item>
     
   </channel>
