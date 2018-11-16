@@ -24,7 +24,7 @@
 &lt;p&gt;&lt;strong&gt;&lt;code&gt;跨站脚本 (Cross-Site-Script, XSS)：&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;既指由于 Web 应用程序 &lt;strong&gt;对用户输入过滤不足&lt;/strong&gt; 而导致网站被注入恶意脚本的漏洞、&lt;/li&gt;
+&lt;li&gt;既指由于 Web 应用程序 &lt;strong&gt;对用户输入过滤不足&lt;/strong&gt; 而导致网站被注入恶意脚本的漏洞&lt;/li&gt;
 &lt;li&gt;也可以理解成 &lt;strong&gt;攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中&lt;/strong&gt; 的攻击手段.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -35,18 +35,172 @@
 
 &lt;h3 id=&#34;2-xss-成因&#34;&gt;2. XSS 成因&lt;/h3&gt;
 
-&lt;p&gt;假设一个网页代码&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;考虑一段网页代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;test&amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当 Html 遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签时，对于该标签的 &lt;strong&gt;内容的控制权&lt;/strong&gt; 便直接移交给了 &lt;strong&gt;浏览器内置的脚本引擎&lt;/strong&gt; 进行处理了。&lt;/p&gt;
+
+&lt;p&gt;此时， Web 浏览器 &lt;strong&gt;只负责解释和执行标签内的 Javascript 等脚本语言&lt;/strong&gt; ，而 &lt;strong&gt;不会去判断代码本身是否对用户有害&lt;/strong&gt;。
+这便构成了 Web 浏览器 &lt;strong&gt;安全机制上的固有缺陷&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;后果便是， 只需能在 Html 代码中插入一对小小的 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;&lt;br /&gt;
+即可将恶意的脚本嵌入网页中。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;若要使网页不停地刷新，可使用代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;meta http-equiv=&amp;quot;refresh&amp;quot; content=&amp;quot;0;&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;要想嵌入其它网站的链接，可使用代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=http://www.fkbug.com width=0 height=0&amp;gt;&amp;lt;/iframe&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;更广泛的情况是， Html 以 PHP 进行后端处理， 动态地生成网页。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;假设 &lt;code&gt;XSS.Php&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt; 测试结果 &amp;lt;/title&amp;gt;
+    &amp;lt;body&amp;gt;
+    &amp;lt;?php
+      echo $_REQUEST[name];
+    ?&amp;gt;
+    &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;code&gt;.html&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt; XSS 测试 &amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;form action=&amp;quot;XSS.php&amp;quot; method=&amp;quot;POST&amp;quot;&amp;gt;
+    请输入名字： &amp;lt;br&amp;gt;
+    &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; value=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
+    &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;提交&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;
+&lt;code&gt;XSS.php&lt;/code&gt; 的作用是让用户在文本框中输入名字并且显示在页面上，由于用户输入&lt;strong&gt;未进行任何过滤就直接 echo 输出了&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;也就是说我们可以随意的插入一些 &lt;code&gt;Html/Javascript&lt;/code&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后单击提交按钮，&lt;code&gt;XSS.php&lt;/code&gt; 即会原封不动的将我们在文本框中输入的 &lt;code&gt;JS代码&lt;/code&gt; 插入到生成的网页中， 然后浏览器开始解析网页，当遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签，浏览器脚本引擎开始执行我们插入的脚本代码， 一个 &lt;strong&gt;XSS漏洞&lt;/strong&gt; 就这样出现了 ！&lt;/p&gt;
+
+&lt;p&gt;同时由于 &lt;code&gt;XSS.php&lt;/code&gt; 使用 &lt;code&gt;$_REQUEST[name]&lt;/code&gt; 来获取用户输入的 &lt;code&gt;name&lt;/code&gt; 变量，我们还可以用 &lt;code&gt;GET&lt;/code&gt; 请求的方式来触发 &lt;code&gt;XSS&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;即直接在浏览器中访问：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-url&#34;&gt;http://127.0.0.0.1/XSS.php?name=&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;3-xss-分类&#34;&gt;3. XSS 分类&lt;/h3&gt;
 
-&lt;h2 id=&#34;xss-防御&#34;&gt;XSS 防御&lt;/h2&gt;
+&lt;p&gt;XSS 攻击通常在 &lt;strong&gt;用户访问目标网站时或者之后进行某项动作时触发并执行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;根据攻击代码的存在地点及是否被服务器存储&lt;/strong&gt;，即 XSS 攻击的存在形式，以及产生的效果&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;主要分为三类：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;反射型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存在反射型 XSS 漏洞的页面只是将用户输入的数据通过 URL 的形式 &lt;strong&gt;直接或未经过完善的安全过滤就在浏览器中进行输出，会导致输出的数据中存在可被浏览器执行的代码数据&lt;/strong&gt; 。由于此类跨站代码存在于 URL 中，因此通常需要通过诱骗或加密变形等方式,将存在恶意代码的链接发给用户，只有用户点击以后才能使攻击成功实施。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;存储型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器——————数据库交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击是指 Web 应用程序将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示。只要用户访问具有 XSS 攻击脚本的网页时，就会触发攻击效果，因此存储型 XSS 具有较强的稳定性。
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击最为常见的场景就是在博客或新闻发布系统中，黑客将包含恶意代码的数据信息直接写入文章或文章评论中，所有浏览文章或评论的用户就会被黑客在他们的客户端浏览器环境中执行插入的恶意代码。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;DOM 型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;严格意义上来说， 基于 DOM 的 XSS 攻击并非按照 “数据是否保存在服务器端” 来划分， 其从效果上来说也算是反射型 XSS。 但是这种 XSS 实现的方法比较特殊，是由 Javascript 的 DOM 节点编程可以改变 Html 这个特性而形成的 XSS 攻击。 不同于反射型 XSS 和存储型 XSS， 基于 DOM 的 XSS 攻击往往需要针对具体的 Javascript DOM 代码进行分析， 并根据实际情况进行 XSS 攻击的利用。 但实际利用中， 由于构造语句具有较大的难度， 且实现效果及要求较为苛刻， 因此较为少见。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;4-xss-攻击条件&#34;&gt;4. XSS 攻击条件&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; XSS 漏洞的利用过程较为直接。&lt;/p&gt;
+
+&lt;p&gt;反射型/DOM 型 跨站攻击均可以理解为： 服务器接收到数据，并原样返回给用户， 整个 Web 应用并没有自身的存储过程(存入数据库)。这也就导致了攻击无法持久化，仅针对当次请求有效， 也就无法直接攻击其他用户。 当然，这两类攻击也可利用钓鱼、垃圾邮件等手段产生攻击其他用户的效果。但是需要在社会工程学的配合下执行。 随着目前浏览器的各类过滤措施愈发严格， 在实战过程中这类攻击的成功率、 效果及危害程度均不高。但也需要关注这类风险。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 我们重点关注存储型 XSS 攻击。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 假设攻击者要想成功实施存储型跨站脚本攻击，那么必须对业务流程进行了解，业务流程一般如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Main_service_flow.png&#34; alt=&#34;存储型跨站主要业务流程&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从业务流程入手可发现， 其中两个业务流程比较关键：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;入库处理： 攻击脚本需存储在数据库中，可供当前应用的使用者读取。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;出库处理： 由当前功能的使用者按照正常的业务流程从数据库中读取信息，这时攻击脚本开始执行。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在以上两个关键点之内， 再对攻击进行分析， 并结合 XSS 攻击的特性可知， XSS 攻击成功必须要满足以下四个条件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;入库处理:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;目标网页有攻击者可控的输入点&lt;/li&gt;
+&lt;li&gt;输入信息可以在受害者的浏览器中显示&lt;/li&gt;
+&lt;li&gt;输入具备功能的可执行脚本，且在信息输入和输出的过程中没有特殊字符的过滤和字符转义等防护措施， 或者说防护措施可以通过一定的手段绕过&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;出库处理：
+浏览器器将输入解析为脚本，并具备执行该脚本的能力。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果要实现一个存储型 XSS， 以上四点条件缺一不可。&lt;/p&gt;
+
+&lt;h2 id=&#34;xss-挖掘&#34;&gt;XSS 挖掘&lt;/h2&gt;
+
+&lt;p&gt;根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘思路：&lt;/p&gt;
 
 &lt;h2 id=&#34;xss-绕过&#34;&gt;XSS 绕过&lt;/h2&gt;
 
-&lt;h2 id=&#34;xss-fuzz&#34;&gt;XSS Fuzz&lt;/h2&gt;
+&lt;h2 id=&#34;xss-学习&#34;&gt;XSS 学习&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-利用&#34;&gt;XSS 利用&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-防御&#34;&gt;XSS 防御&lt;/h2&gt;
 
 &lt;h2 id=&#34;xss-工具&#34;&gt;XSS 工具&lt;/h2&gt;
 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://gkfnf.github.io/1/google/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://gkfnf.github.io/1/google/</guid>
+      <description></description>
     </item>
     
   </channel>

@@ -17,10 +17,21 @@
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
       
       <guid>https://gkfnf.github.io/2018/xss/</guid>
-      <description> XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
- 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞、 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
-一个 XSS 的攻击流程可能如下： 2. XSS 成因 假设一个网页代码
-3. XSS 分类 XSS 防御 XSS 绕过 XSS Fuzz XSS 工具 </description>
+      <description>XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
+ 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
+一个 XSS 的攻击流程可能如下： 2. XSS 成因  XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！
+ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;考虑一段网页代码如下：
+&amp;lt;html&amp;gt; &amp;lt;head&amp;gt;test&amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt;  当 Html 遇到 &amp;lt;script&amp;gt; 标签时，对于该标签的 内容的控制权 便直接移交给了 浏览器内置的脚本引擎 进行处理了。
+此时， Web 浏览器 只负责解释和执行标签内的 Javascript 等脚本语言 ，而 不会去判断代码本身是否对用户有害。 这便构成了 Web 浏览器 安全机制上的固有缺陷。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://gkfnf.github.io/1/google/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://gkfnf.github.io/1/google/</guid>
+      <description></description>
     </item>
     
   </channel>

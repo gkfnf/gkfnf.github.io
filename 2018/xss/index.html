@@ -9,7 +9,7 @@
   
   
   
-  
+  <link rel="prev" href="https://gkfnf.github.io/1/google/" />
   
   <link rel="canonical" href="https://gkfnf.github.io/2018/xss/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -46,10 +46,12 @@
     "articleSection" : "posts",
     "name" : "XSS 相关",
     "headline" : "XSS 相关",
-    "description" : " XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
- 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞、 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
-一个 XSS 的攻击流程可能如下： 2. XSS 成因 假设一个网页代码
-3. XSS 分类 XSS 防御 XSS 绕过 XSS Fuzz XSS 工具 ",
+    "description" : "XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
+ 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
+一个 XSS 的攻击流程可能如下： 2. XSS 成因  XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！
+ &nbsp;&nbsp;&nbsp;&nbsp;考虑一段网页代码如下：
+&lt;html&gt; &lt;head&gt;test&lt;/head&gt; &lt;body&gt; &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt; &lt;/body&gt; &lt;/html&gt;  当 Html 遇到 &lt;script&gt; 标签时，对于该标签的 内容的控制权 便直接移交给了 浏览器内置的脚本引擎 进行处理了。
+此时， Web 浏览器 只负责解释和执行标签内的 Javascript 等脚本语言 ，而 不会去判断代码本身是否对用户有害。 这便构成了 Web 浏览器 安全机制上的固有缺陷。",
     "inLanguage" : "en-us",
     "author" : "Fkbug",
     "creator" : "Fkbug",
@@ -60,7 +62,7 @@
     "datePublished": "2018-10-13 22:04:55 &#43;0800 CST",
     "dateModified" : "2018-10-13 22:04:55 &#43;0800 CST",
     "url" : "https://gkfnf.github.io/2018/xss/",
-    "wordCount" : "43",
+    "wordCount" : "299",
     "keywords" : [  "Fkbug"]
 }
 </script>
@@ -156,7 +158,7 @@
 <p><strong><code>跨站脚本 (Cross-Site-Script, XSS)：</code></strong></p>
 
 <ul>
-<li>既指由于 Web 应用程序 <strong>对用户输入过滤不足</strong> 而导致网站被注入恶意脚本的漏洞、</li>
+<li>既指由于 Web 应用程序 <strong>对用户输入过滤不足</strong> 而导致网站被注入恶意脚本的漏洞</li>
 <li>也可以理解成 <strong>攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中</strong> 的攻击手段.</li>
 </ul>
 
@@ -167,15 +169,160 @@
 
 <h3 id="2-xss-成因">2. XSS 成因</h3>
 
-<p>假设一个网页代码</p>
+<blockquote>
+<p>XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！</p>
+</blockquote>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;考虑一段网页代码如下：</p>
+
+<pre><code class="language-html">&lt;html&gt;
+  &lt;head&gt;test&lt;/head&gt;
+  &lt;body&gt;
+    &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>当 Html 遇到 <code>&lt;script&gt;</code> 标签时，对于该标签的 <strong>内容的控制权</strong> 便直接移交给了 <strong>浏览器内置的脚本引擎</strong> 进行处理了。</p>
+
+<p>此时， Web 浏览器 <strong>只负责解释和执行标签内的 Javascript 等脚本语言</strong> ，而 <strong>不会去判断代码本身是否对用户有害</strong>。
+这便构成了 Web 浏览器 <strong>安全机制上的固有缺陷</strong>。</p>
+
+<p>后果便是， 只需能在 Html 代码中插入一对小小的 <code>&lt;script&gt;</code><br />
+即可将恶意的脚本嵌入网页中。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;若要使网页不停地刷新，可使用代码：</p>
+
+<pre><code class="language-html">&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;&quot;&gt;
+</code></pre>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;要想嵌入其它网站的链接，可使用代码：</p>
+
+<pre><code class="language-html">&lt;iframe src=http://www.fkbug.com width=0 height=0&gt;&lt;/iframe&gt;
+</code></pre>
+
+<p>更广泛的情况是， Html 以 PHP 进行后端处理， 动态地生成网页。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;假设 <code>XSS.Php</code> ：</p>
+
+<pre><code class="language-php">&lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt; 测试结果 &lt;/title&gt;
+    &lt;body&gt;
+    &lt;?php
+      echo $_REQUEST[name];
+    ?&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<code>.html</code> ：</p>
+
+<pre><code class="language-html">&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt; XSS 测试 &lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form action=&quot;XSS.php&quot; method=&quot;POST&quot;&gt;
+    请输入名字： &lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;&quot;&gt;&lt;/input&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;&lt;/input&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><br>
+<code>XSS.php</code> 的作用是让用户在文本框中输入名字并且显示在页面上，由于用户输入<strong>未进行任何过滤就直接 echo 输出了</strong>。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;也就是说我们可以随意的插入一些 <code>Html/Javascript</code> :</p>
+
+<pre><code class="language-html">&lt;script&gt;alert(/XSS/)&lt;/script&gt;
+</code></pre>
+
+<p>然后单击提交按钮，<code>XSS.php</code> 即会原封不动的将我们在文本框中输入的 <code>JS代码</code> 插入到生成的网页中， 然后浏览器开始解析网页，当遇到 <code>&lt;script&gt;</code>标签，浏览器脚本引擎开始执行我们插入的脚本代码， 一个 <strong>XSS漏洞</strong> 就这样出现了 ！</p>
+
+<p>同时由于 <code>XSS.php</code> 使用 <code>$_REQUEST[name]</code> 来获取用户输入的 <code>name</code> 变量，我们还可以用 <code>GET</code> 请求的方式来触发 <code>XSS</code></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;即直接在浏览器中访问：</p>
+
+<pre><code class="language-url">http://127.0.0.0.1/XSS.php?name=&lt;script&gt;alert(/XSS/)&lt;script&gt;
+</code></pre>
 
 <h3 id="3-xss-分类">3. XSS 分类</h3>
 
-<h2 id="xss-防御">XSS 防御</h2>
+<p>XSS 攻击通常在 <strong>用户访问目标网站时或者之后进行某项动作时触发并执行</strong></p>
+
+<p><strong>根据攻击代码的存在地点及是否被服务器存储</strong>，即 XSS 攻击的存在形式，以及产生的效果</p>
+
+<p><strong>主要分为三类：</strong></p>
+
+<p><strong><code>反射型 XSS</code></strong>:  <font size="2">涉及浏览器——————服务器交互</font><br/></p>
+
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;存在反射型 XSS 漏洞的页面只是将用户输入的数据通过 URL 的形式 <strong>直接或未经过完善的安全过滤就在浏览器中进行输出，会导致输出的数据中存在可被浏览器执行的代码数据</strong> 。由于此类跨站代码存在于 URL 中，因此通常需要通过诱骗或加密变形等方式,将存在恶意代码的链接发给用户，只有用户点击以后才能使攻击成功实施。</p>
+</blockquote>
+
+<p><strong><code>存储型 XSS</code></strong>:  <font size="2">涉及浏览器——————服务器——————数据库交互</font><br/></p>
+
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;存储型 XSS 脚本攻击是指 Web 应用程序将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示。只要用户访问具有 XSS 攻击脚本的网页时，就会触发攻击效果，因此存储型 XSS 具有较强的稳定性。
+&nbsp;&nbsp;&nbsp;&nbsp;存储型 XSS 脚本攻击最为常见的场景就是在博客或新闻发布系统中，黑客将包含恶意代码的数据信息直接写入文章或文章评论中，所有浏览文章或评论的用户就会被黑客在他们的客户端浏览器环境中执行插入的恶意代码。</p>
+</blockquote>
+
+<p><strong><code>DOM 型 XSS</code></strong>:  <font size="2">涉及浏览器——————服务器交互</font><br/></p>
+
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;严格意义上来说， 基于 DOM 的 XSS 攻击并非按照 “数据是否保存在服务器端” 来划分， 其从效果上来说也算是反射型 XSS。 但是这种 XSS 实现的方法比较特殊，是由 Javascript 的 DOM 节点编程可以改变 Html 这个特性而形成的 XSS 攻击。 不同于反射型 XSS 和存储型 XSS， 基于 DOM 的 XSS 攻击往往需要针对具体的 Javascript DOM 代码进行分析， 并根据实际情况进行 XSS 攻击的利用。 但实际利用中， 由于构造语句具有较大的难度， 且实现效果及要求较为苛刻， 因此较为少见。</p>
+</blockquote>
+
+<h3 id="4-xss-攻击条件">4. XSS 攻击条件</h3>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; XSS 漏洞的利用过程较为直接。</p>
+
+<p>反射型/DOM 型 跨站攻击均可以理解为： 服务器接收到数据，并原样返回给用户， 整个 Web 应用并没有自身的存储过程(存入数据库)。这也就导致了攻击无法持久化，仅针对当次请求有效， 也就无法直接攻击其他用户。 当然，这两类攻击也可利用钓鱼、垃圾邮件等手段产生攻击其他用户的效果。但是需要在社会工程学的配合下执行。 随着目前浏览器的各类过滤措施愈发严格， 在实战过程中这类攻击的成功率、 效果及危害程度均不高。但也需要关注这类风险。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 我们重点关注存储型 XSS 攻击。</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp; 假设攻击者要想成功实施存储型跨站脚本攻击，那么必须对业务流程进行了解，业务流程一般如下图：</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/xss_Main_service_flow.png" alt="存储型跨站主要业务流程" class="lazyload"><figcaption class="image-caption">存储型跨站主要业务流程</figcaption></figure></p>
+
+<p>从业务流程入手可发现， 其中两个业务流程比较关键：</p>
+
+<ul>
+<li><p>入库处理： 攻击脚本需存储在数据库中，可供当前应用的使用者读取。</p></li>
+
+<li><p>出库处理： 由当前功能的使用者按照正常的业务流程从数据库中读取信息，这时攻击脚本开始执行。</p></li>
+</ul>
+
+<p>在以上两个关键点之内， 再对攻击进行分析， 并结合 XSS 攻击的特性可知， XSS 攻击成功必须要满足以下四个条件：</p>
+
+<ul>
+<li><p>入库处理:</p>
+
+<ol>
+<li>目标网页有攻击者可控的输入点</li>
+<li>输入信息可以在受害者的浏览器中显示</li>
+<li>输入具备功能的可执行脚本，且在信息输入和输出的过程中没有特殊字符的过滤和字符转义等防护措施， 或者说防护措施可以通过一定的手段绕过</li>
+</ol></li>
+
+<li><p>出库处理：
+浏览器器将输入解析为脚本，并具备执行该脚本的能力。</p></li>
+</ul>
+
+<p>如果要实现一个存储型 XSS， 以上四点条件缺一不可。</p>
+
+<h2 id="xss-挖掘">XSS 挖掘</h2>
+
+<p>根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘思路：</p>
 
 <h2 id="xss-绕过">XSS 绕过</h2>
 
-<h2 id="xss-fuzz">XSS Fuzz</h2>
+<h2 id="xss-学习">XSS 学习</h2>
+
+<h2 id="xss-利用">XSS 利用</h2>
+
+<h2 id="xss-防御">XSS 防御</h2>
 
 <h2 id="xss-工具">XSS 工具</h2>
 
@@ -212,6 +359,8 @@
     </div>
 
     <div class="post-nav">
+        
+        <a href="https://gkfnf.github.io/1/google/" class="prev" rel="prev" title=""><i class="iconfont icon-left"></i>&nbsp;</a>
          
         
     </div>
