@@ -9,8 +9,8 @@
   
   
   
+  <link rel="prev" href="https://gkfnf.github.io/2018/google/" />
   
-  <link rel="next" href="https://gkfnf.github.io/2018/google/" />
   <link rel="canonical" href="https://gkfnf.github.io/2018/xss/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           XSS 相关 | Fkbug
+           1. XSS  | Fkbug
        
   </title>
-  <meta name="title" content="XSS 相关 | Fkbug">
+  <meta name="title" content="1. XSS  | Fkbug">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,14 +44,19 @@
          "@id": "https://gkfnf.github.io"
     },
     "articleSection" : "posts",
-    "name" : "XSS 相关",
-    "headline" : "XSS 相关",
-    "description" : "XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
- 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
-一个 XSS 的攻击流程可能如下： 2. XSS 成因  XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！
- &nbsp;&nbsp;&nbsp;&nbsp;考虑一段网页代码如下：
-&lt;html&gt; &lt;head&gt;test&lt;/head&gt; &lt;body&gt; &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt; &lt;/body&gt; &lt;/html&gt;  当 Html 遇到 &lt;script&gt; 标签时，对于该标签的 内容的控制权 便直接移交给了 浏览器内置的脚本引擎 进行处理了。
-此时， Web 浏览器 只负责解释和执行标签内的 Javascript 等脚本语言 ，而 不会去判断代码本身是否对用户有害。 这便构成了 Web 浏览器 安全机制上的固有缺陷。",
+    "name" : "1. XSS ",
+    "headline" : "1. XSS ",
+    "description" : "漏洞本质 个人理解，安全漏洞主要是下边两个原因导致的：
+一 是未能正确区分数据和代码
+二 是安全策略不周
+怎么理解？
+在二进制范畴里：  栈溢出 是因为数据把栈覆盖了被当成了代码被执行了 堆喷 是因为数据把堆覆盖了被当成了代码被执行了  诸如 格式化字符串， UAF（释放后重用）, DDOS(拒绝服务) 等基本可以说都是上边两种的子集。
+这两种类型江湖人称 &mdash;&mdash;&mdash;&mdash;&mdash;- 溢出
+皆是因 未能正确区分数据和代码 而掀起的腥风血雨
+至于下边这几种：
+ 加密缺陷 凭据管理不当 信息泄露 。。。  则基本都可以说是 安全策略考虑不周 造成的
+而在Web范畴里： 可以将 Web 分为八层来看待问题： 将特殊数据作为 Web 系统的输入, 根据是否对 数据和代码进行了正确区分，在 Web 的各层便构成了不同种类的安全问题：
+ 在操作系统层， 如果没有对输入数据处理好， 将数据当成了代码执行，便构成了 OS 命令执行的问题。 通常导致 OS 命令执行的是一些 RCE 漏洞, 这时构造的恶意数据便是我们二进制里说的 Shellcode, 也就是汇编字节码。 但是有时候因为命令行的一些漏洞， 导致直接输入一些 Bash 或 Powershell 脚本得到了执行， 这时特殊数据便可能是一些命令行脚本， 如:  rm -rm/   在数据的存储层， 如果没有处理好输入的数据， 数据库的 SQL 解析引擎把这个特殊数据当成代码执行了， 就导致了 sql 注入的问题, 可能的特殊数据便是 精心构造的 sql 语句, 如：  'union select user, pwd, 1, 2, 3, 4, from users--   而如果在 Web 容器层如 Nginx 中没有处理好输入的数据， 由于 Nginx 或 Apache 自身的漏洞，将特殊数据当成代码执行了, 便可能产生 远程溢出、 DDos 等安全问题; 可能的特殊数据是：  %c0.",
     "inLanguage" : "en-us",
     "author" : "Fkbug",
     "creator" : "Fkbug",
@@ -62,7 +67,7 @@
     "datePublished": "2018-10-13 22:04:55 &#43;0800 CST",
     "dateModified" : "2018-10-13 22:04:55 &#43;0800 CST",
     "url" : "https://gkfnf.github.io/2018/xss/",
-    "wordCount" : "299",
+    "wordCount" : "906",
     "keywords" : [  "Fkbug"]
 }
 </script>
@@ -121,7 +126,7 @@
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">XSS 相关</h1>
+        <h1 class="post-title" itemprop="name headline">1. XSS </h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://gkfnf.github.io" rel="author">Fkbug</a> with ♥ 
                 <span class="post-time">
@@ -155,11 +160,324 @@
 
           
 
+<h2 id="漏洞本质">漏洞本质</h2>
+
+<p>个人理解，安全漏洞主要是下边两个原因导致的：</p>
+
+<p><code>一 是未能正确区分数据和代码</code></p>
+
+<p><code>二 是安全策略不周</code></p>
+
+<p>怎么理解？</p>
+
+<h3 id="在二进制范畴里">在二进制范畴里：</h3>
+
+<ul>
+<li>栈溢出 是因为数据把栈覆盖了被当成了代码被执行了</li>
+<li>堆喷   是因为数据把堆覆盖了被当成了代码被执行了</li>
+</ul>
+
+<p>诸如 <code>格式化字符串</code>， <code>UAF（释放后重用）</code>, <code>DDOS(拒绝服务)</code> 等基本可以说都是上边两种的子集。</p>
+
+<p>这两种类型江湖人称 &mdash;&mdash;&mdash;&mdash;&mdash;- <code>溢出</code><br />
+皆是因 <strong>未能正确区分数据和代码</strong> 而掀起的腥风血雨</p>
+
+<p>至于下边这几种：</p>
+
+<ul>
+<li>加密缺陷</li>
+<li>凭据管理不当</li>
+<li>信息泄露</li>
+<li>。。。</li>
+</ul>
+
+<p>则基本都可以说是 <strong>安全策略考虑不周</strong> 造成的</p>
+
+<h3 id="而在web范畴里">而在Web范畴里：</h3>
+
+<p>可以将 Web 分为八层来看待问题：
+<figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/Web_Security_level.png" alt="Web 安全问题分层" class="lazyload"><figcaption class="image-caption">Web 安全问题分层</figcaption></figure>
+将特殊数据作为 Web 系统的输入, 根据是否对 <strong>数据和代码进行了正确区分</strong>，在 Web 的各层便构成了不同种类的安全问题：</p>
+
+<ul>
+<li>在操作系统层， 如果没有对输入数据处理好， 将数据当成了代码执行，便构成了 OS 命令执行的问题。   通常导致 OS 命令执行的是一些 RCE 漏洞, 这时构造的恶意数据便是我们二进制里说的 <code>Shellcode</code>, 也就是汇编字节码。 <br/>但是有时候因为命令行的一些漏洞， 导致直接输入一些 Bash 或 Powershell 脚本得到了执行， 这时特殊数据便可能是一些命令行脚本， 如:</li>
+</ul>
+
+<pre><code class="language-shell">rm -rm/
+</code></pre>
+
+<ul>
+<li>在数据的存储层， 如果没有处理好输入的数据， 数据库的 SQL 解析引擎把这个特殊数据当成代码执行了， 就导致了 sql 注入的问题, 可能的特殊数据便是 精心构造的 sql 语句, 如：</li>
+</ul>
+
+<pre><code class="language-sql">'union select user, pwd, 1, 2, 3, 4, from users--
+</code></pre>
+
+<ul>
+<li>而如果在 Web 容器层如 Nginx 中没有处理好输入的数据， 由于 Nginx 或 Apache 自身的漏洞，将特殊数据当成代码执行了, 便可能产生 远程溢出、 DDos 等安全问题; 可能的特殊数据是：</li>
+</ul>
+
+<pre><code class="language-python">%c0.%c0./%c0.%c0./%c0.%c0./%c0.%c0./%20 
+</code></pre>
+
+<ul>
+<li>而在 Web 开发框架或 Web 应用层没有处理好输入的数据， 将特殊数据当成了代码执行，便产生了远程命令执行的问题，可能的特殊数据便是 精心构造的 php 的代码, 如：</li>
+</ul>
+
+<pre><code class="language-php"> eval($_REQUEST['x'])
+</code></pre>
+
+<ul>
+<li>而如果在 Web 前端层中没有处理好输入的数据， 浏览器的 JS 引擎把特殊数据当成了代码执行了， 便构成了 XSS 跨站脚本的安全问题， 可能特殊数据便是 精心构造的 Javascript 的代码, 如：</li>
+</ul>
+
+<pre><code class="language-javascript"> '&quot;&gt;&lt;script&gt;alert(/Fkbug/)&lt;/script&gt;
+</code></pre>
+
+<p>以上 Web 安全问题都是因为未能正确的处理输入的数据流，而将输入数据当成代码执行了， 即都是由于 <strong>未能正确区分数据和代码</strong> 而导致的安全问题
+<br/><br/>
+至于剩下的一些诸如：</p>
+
+<ul>
+<li>敏感信息泄露</li>
+<li>逻辑漏洞</li>
+<li>SSRF</li>
+<li>CSRF</li>
+<li>&hellip;&hellip;&hellip;</li>
+</ul>
+
+<p>大体上基本都是因为 <strong>安全策略考虑不周</strong> 导致的</p>
+
 <h2 id="xss-原理">XSS 原理</h2>
 
-<h3 id="1-什么是-xss">1. 什么是 XSS</h3>
+<p>说了这么多东西，可能有很多不理解的地方， 没关系，我们先从最简单的套路开始</p>
+
+<p>即由于 <strong>Web 前端方面没有处理好输入的数据</strong> 而导致的 <code>XSS 跨站脚本</code> 漏洞。</p>
 
 <p><strong><code>跨站脚本 (Cross-Site-Script, XSS)：</code></strong></p>
+
+<p>为了不与 <code>CSS</code>（层叠样式表）命名冲突，我们把由于 <strong>Web 前端未能处理好输入的数据</strong> 而导致的安全问题叫作 <code>XSS</code></p>
+
+<p><strong>那么 Web 前端是怎么就没处理好输入的数据的呢？</strong></p>
+
+<p>为了解决这个问题，我们先 <strong>摸胸自问</strong> 一下：</p>
+
+<ul>
+<li>我有多了解网址 ？</li>
+<li>我有多了解 HTTP ？</li>
+<li>我有多了解网页 ？
+<br/><br/></li>
+</ul>
+
+<h3 id="1-web-基础知识">1. Web 基础知识 ?</h3>
+
+<p><strong>1. <code>url</code>: (Uniform Resource Location)统一资源定位符</strong></p>
+
+<p>url 也就是所谓的网址， 是一种特殊类型的 <code>uri</code>(Uniform Resource Identifier) 统一资源标志符</p>
+
+<pre><code class="language-python">用一串规定好的字符串来标识我们想要访问的网络资源，这样，当我们点击这个字符串或者在地址栏输入这个字符串时，
+浏览器就会按照预先定义好的解析方式来解析这个字符串，确定我们想要访问什么资源
+</code></pre>
+
+<p><strong>WhatF ？</strong></p>
+
+<p>说白了就是一套能唯一确定网络资源位置的命名方法</p>
+
+<p><code>ps</code> :</p>
+
+<ul>
+<li>这里的资源就包括了我们常见的视频、图片、网页、文本等等的所有万维网上的资源。</li>
+<li>这种用一串特定格式的字符串来作为标识的方法, 也被用来标识 <strong>物理设备</strong>：<code>MAC 地址</code>、 或者 <strong>主机</strong>：<code>IP 地址</code>、 或 <strong>域名</strong>：<code>DNS</code> 等</li>
+<li>而 <code>URL</code> 与 <code>URI</code> 的不同在于，<code>URL</code> 这个字符串不仅标识了要访问的资源，还 <strong>表明了资源在网络上的位置和访问的方法</strong></li>
+</ul>
+
+<p><strong>那么 <code>URL</code> 是如何规定资源在网络上的位置和访问方法的呢？</strong></p>
+
+<pre><code class="language-python"># url 标准格式： 
+scheme : // IP :port /path   ?querystring1=value1  &amp;querystring2=value2
+</code></pre>
+
+<ul>
+<li><code>scheme</code>: 指定了底层使用的协议，常见的如 <code>HTTP/HTTPS/FTP</code>, 目前浏览器一般默认为 <code>HTTP</code> 开头</li>
+<li><code>IP/CNAME</code>： 服务器的 <code>IP 地址</code>或者<code>域名</code>，<code>协议</code>与 <code>IP</code> 以 <code>//</code>（两个反斜线）隔开，表明了访问的网络位置。 通常说的墙，也就是墙的 IP</li>
+<li><code>port</code>: <code>HTTP</code> 默认端口为 80， <code>HTTPS</code> 默认端口为 443。 如果当前请求为协议默认端口，则可省略端口号；如果不是默认端口，则需注明端口。并且，端口与域名之间用 <code>：</code>（冒号）隔开。</li>
+<li><code>path</code>：访问资源的路径。在服务器中以 <code>WWW</code> 开头的路径， 通常表示访问文件的地点。 这个路径可以是相对路径，也可以是绝对路径</li>
+<li><code>query-string</code>: 发送给服务器的数据。此时, 应用 <code>GET 方式</code> 传输才有效。 多个数据可用 <code>&amp;</code> 进行分割，实现多组数据同时传输</li>
+</ul>
+
+<p>以某新闻的链接为例：
+<figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/xss_Url_format.png" alt="url 标准格式" class="lazyload"><figcaption class="image-caption">url 标准格式</figcaption></figure></p>
+
+<p>可以看到， 在一个 <code>URL</code> 中：</p>
+
+<ul>
+<li><code>协议</code>、<code>端口号</code>、<code>发送给服务器的数据</code> 表明了 <strong>访问资源的方法</strong></li>
+<li><code>IP/域名</code>、<code>资源路径</code> 表明了 <strong>资源在网络上的位置</strong></li>
+</ul>
+
+<p>现在，我们对网址有了一点肤浅的认识了。</p>
+
+<p>但是，<strong>浏览器解析完 <code>URL</code>后， 确定了我们想访问的资源的位置之后， 具体又发生了什么？</strong></p>
+
+<p>这便不得不提 <code>HTTP</code>协议 了：
+<br/><br/>
+<strong>2. <code>HTTP</code>:</strong></p>
+
+<pre><code class="language-python">HTTP (Hyper Text Transfer Protocol, 超文本传输协议) 是 WEB (World Wide Web, WWW) 
+# 万维网中客户端与服务端之间的交互标准
+</code></pre>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/me/avatar.png" alt="浏览器与服务器交互过程" class="lazyload"><figcaption class="image-caption">浏览器与服务器交互过程</figcaption></figure>
+浏览器解析完 <code>URL</code> 后， 会向 <code>URL</code> 中指定的 IP或域名 所对应的服务器发送一个 <code>HTTP 请求包</code>， 然后服务器根据请求进行相应回应，并发出 <code>HTTP 响应包</code>，浏览器收到响应包，解析出响应包中附带的网页，渲染出页面。</p>
+
+<p><strong>HTTP 抓包工具</strong></p>
+
+<p>为了更直观的理解上边这个交互过程，我们先充值一波信仰：</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/me/wallet1.png" alt="梦想还是要有的， 万一真有人打钱了呢？" class="lazyload"><figcaption class="image-caption">梦想还是要有的， 万一真有人打钱了呢？</figcaption></figure></p>
+
+<p>充值信仰，获得神器 <code>Burpsuite 1.72 专业版</code>：<a href="https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw" rel="nofollow noreferrer" target="_blank">https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw</a><br />
+<p style="display:none;">password: djvp</p></p>
+
+<p>神器说明：</p>
+
+<ul>
+<li>简介：
+<code>Burpsuite</code> 是一款抓包神器， 常见的抓包神器还有 <code>Fiddler</code>、<code>Wireshark</code>。 这几款神器不同之处在于 Burpsuite 和 Fiddler 是 基于 HTTP 代理抓包的， 而 Wireshark 是基于网卡通信抓包的， 基本什么协议的都可以抓。 然后就是 Fiddler 更适合 MacOS</li>
+
+<li><p>被动：</p>
+
+<ol>
+<li><strong>远视</strong>: 让你可以看到一定区域内网络的所有活动， 并可显示出隐形单位。</li>
+<li><strong>篡改链</strong>: 让你可以拦截并修改一定区域内网络的所有封包</li>
+</ol></li>
+
+<li><p>主动:</p>
+
+<ol>
+<li><code>Proxy</code>: 消耗两点耐心，建立一个拦截 HTTP/HTTPS 的代理服务器，作为一个在浏览器和目标应用程序间的中间人，解锁神器其它技能， 使得使用者可以拦截、查看、修改在两个方向上的原始数据流。</li>
+<li><code>Target</code>:</li>
+<li><code>Spider</code> :</li>
+<li><code>Scanner</code>:</li>
+<li><code>Intruder</code>:</li>
+<li><code>Repeater</code>:</li>
+<li><code>Sequencer</code>:</li>
+<li><code>Decoder</code>:</li>
+<li><code>Comparer</code>:</li>
+<li><code>Extender</code>:</li>
+<li><code>Alerts</code>:</li>
+</ol></li>
+</ul>
+
+<p>神器前置要求：</p>
+
+<ul>
+<li>如果本机没有 <code>JRE</code> ( Java 运行环境)，需先安装 <code>JRE</code>， 因为神器是用 Java 写的，配置请参考: <a href="http://www.runoob.com/java/java-environment-setup.html" rel="nofollow noreferrer" target="_blank">http://www.runoob.com/java/java-environment-setup.html</a></li>
+<li>解封神器， 压缩包解压以后， Windows下运行 BurpuUnlimited 目录下的 BurpUnlimited.jar， Mac 下同理。</li>
+<li>每次使用需先设置代理：
+<figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/xss_Burp_proxy.png" alt="Burp 设置代理" class="lazyload"><figcaption class="image-caption">Burp 设置代理</figcaption></figure></li>
+</ul>
+
+<p><strong>HTTP 请求包:</strong></p>
+
+<p>设置完代理后我们在 firefox 中访问 www.cn.bing.com 截获一个请求包</p>
+
+<ul>
+<li>请求行： <code>Method Request-URI HTTP-Version CRLF</code>
+
+<ol>
+<li><code>Method</code>: <code>请求方法</code>: 用来告知 Web 服务器本次请求的主要目的。</li>
+</ol></li>
+</ul>
+
+<pre><code class="language-python"># HTTP 中定义了多种请求方法(所有方法均为大写) 如下:
+GET:                        请求获取 Request-URI 所标识的资源
+POST:                       在 Request-URI 所标识的资源后附加新的数据
+HEAD:                       请求获取由 Request-URI 所标识的资源的响应消息报头
+PUT:                        请求服务器存储一个资源， 并用 Request-URI 作为其标识
+DELETE:                     请求服务器删除 Request-URI 所标识的资源
+TRACE:                      请求服务器回送收到的请求信息， 主要用于测试或诊断
+CONNECT:                    保留，将来使用
+</code></pre>
+
+<p><strong>HTTP 响应包：</strong></p>
+
+<ul>
+<li><code>HTTP 状态码</code>:
+<code>服务器状态码是用来告知客户端 Web 服务对本次请求的响应状态是什么。</code>
+
+<ol>
+<li><code>1XX</code>: 表示 <strong>提示信息</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表明请求已被成功接收， 继续处理。</li>
+<li><code>2XX</code>: 表示 <strong>成功</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说明请求已被成功接收、理解、接受。</li>
+<li><code>3XX</code>: 表示 <strong>重定向</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;要完成请求必须进行更进一步处理。</li>
+<li><code>4XX</code>: 表示 <strong>客户端错误</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请求有语法错误或请求无法实现。</li>
+<li><code>5XX</code>: 表示 <strong>服务器端错误</strong> &nbsp;&nbsp;服务器处理请求时出错。之后两位会利用不同的数字来代表当前服务的状态。</li>
+</ol></li>
+</ul>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>以下是常见的状态码及状态描述：</strong></p>
+
+<pre><code class="language-python">200: Ok,                    客户端请求成功
+203: Temporarily Moved,     页面临时重定向
+301：Permanently Moved,     页面重定向
+400: Bad Request,           客户端请求有语法错误， 不能被服务器所理解
+401: Unauthorized,          请求未经授权， 这个状态码必须和 www-Authenticate 报头域一起用
+403: Forbidden,             服务器收到请求，但是拒绝提供服务
+404：Not Found,             请求资源不存在，或者请求无法实现
+500：Internal Server Error, 服务器发生不可预期的错误
+503: Server Unavailabe,     服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+</code></pre>
+
+<p><strong>HTTP 头参数</strong></p>
+
+<ul>
+<li><code>user_agent</code>:</li>
+<li><code>X-Forwarded-For</code>:</li>
+<li><code>Referer</code></li>
+<li><code>Clien_ip</code>:</li>
+<li><code>Cookie</code>:</li>
+</ul>
+
+<h3 id="2-什么是-xss">2. 什么是 XSS ?</h3>
+
+<h4 id="1-搭建环境">1. 搭建环境</h4>
+
+<p>为了便于理解，我们首先装一个小游戏 ：</p>
+
+<p>在线地址： <a href="http://test.xss.tv/" rel="nofollow noreferrer" target="_blank">http://test.xss.tv/</a></p>
+
+<p>下载地址： <a href="https://pan.baidu.com/s/1zS2GwTNbMBXEF2yNEBeLgA" rel="nofollow noreferrer" target="_blank">https://pan.baidu.com/s/1zS2GwTNbMBXEF2yNEBeLgA</a>   密码：85g8</p>
+
+<p>最好自己本地搭建：</p>
+
+<ol>
+<li><p>直接安装 phpstudy 并勾选 mysql 等环境，方便快捷：
+官网：<a href="http://phpstudy.php.cn" rel="nofollow noreferrer" target="_blank">http://phpstudy.php.cn</a></p></li>
+
+<li><p>phpstudy 安装好后运行、启动, 其他选项 &ndash;&gt; 打开网站根目录， 将下载下来的 xss 目录解压到这里</p></li>
+
+<li><p>firefox 中打开: <a href="http://127.0.0.1/xss/" rel="nofollow noreferrer" target="_blank">http://127.0.0.1/xss/</a> 进入游戏欢迎界面， 点击图片进入第一关，这里不用 chrome 打开的原因是 chrome 的 <code>x-xss-protection</code> 保护会阻止 xss 的执行， 为了更直观一点这里用 firefox</p></li>
+</ol>
+
+<p>首先来看 <strong>第一关</strong></p>
+
+<p><code>level1.php</code> 及页面如下:
+<figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/xss/xss_Tv_level1.png" alt="level1.php" class="lazyload"><figcaption class="image-caption">level1.php</figcaption></figure>
+分析代码 <code>level1.php</code> 可以看到:</p>
+
+<ul>
+<li>在数据输入时， 我们提交的 <code>GET</code> 型请求的 <code>name</code> 参数没有经过任何过滤便被保存到 <code>$str</code> 变量中了</li>
+<li>在数据输出时， <code>$str</code> 也没有经过任何过滤便直接输出到了网页中。</li>
+</ul>
+
+<p>所以想触发第一关的 xss 便很简单了， 只需将 <code>name</code> 参数的内容改为 <code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+
+<p>即可调用 <code>alert()</code> 函数, 执行 <code>level1.php</code> 中预定义的 <code>alert()</code> 函数的响应脚本代码，跳转到 <code>level2.php</code></p>
+
+<h4 id="第二关">第二关</h4>
+
+<p>因为是本地搭建的所以在 firefox 中我们可以 <code>F12</code> 中的 <code>Debugger</code> 中直接查看 <code>php</code> 的源码。
+如果是在线的也能看到网页的输出情况</p>
 
 <ul>
 <li>既指由于 Web 应用程序 <strong>对用户输入过滤不足</strong> 而导致网站被注入恶意脚本的漏洞</li>
@@ -279,7 +597,17 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;严格意义上来说， 基于 DOM 的 XSS 攻击并非按照 “数据是否保存在服务器端” 来划分， 其从效果上来说也算是反射型 XSS。 但是这种 XSS 实现的方法比较特殊，是由 Javascript 的 DOM 节点编程可以改变 Html 这个特性而形成的 XSS 攻击。 不同于反射型 XSS 和存储型 XSS， 基于 DOM 的 XSS 攻击往往需要针对具体的 Javascript DOM 代码进行分析， 并根据实际情况进行 XSS 攻击的利用。 但实际利用中， 由于构造语句具有较大的难度， 且实现效果及要求较为苛刻， 因此较为少见。</p>
 </blockquote>
 
-<h3 id="4-xss-攻击条件">4. XSS 攻击条件</h3>
+<h2 id="xss-学习">XSS 学习</h2>
+
+<p>上面讲了一堆原理性的东西，可能还是感觉一脸懵逼，所以这里做一些 xss 的练习</p>
+
+<h3 id="1-xss-通关小游戏">1. XSS 通关小游戏：</h3>
+
+<h2 id="xss-绕过">XSS 绕过</h2>
+
+<h2 id="xss-挖掘">XSS 挖掘</h2>
+
+<h3 id="1-xss-攻击的条件">1. XSS 攻击的条件</h3>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp; XSS 漏洞的利用过程较为直接。</p>
 
@@ -314,19 +642,15 @@
 浏览器器将输入解析为脚本，并具备执行该脚本的能力。</p></li>
 </ul>
 
-<p>如果要实现一个存储型 XSS， 以上四点条件缺一不可。</p>
-
-<h2 id="xss-挖掘">XSS 挖掘</h2>
-
-<p>根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘流程如下图：</p>
-
-<h2 id="xss-绕过">XSS 绕过</h2>
-
-<h2 id="xss-学习">XSS 学习</h2>
-
-<h2 id="xss-利用">XSS 利用</h2>
+<p>如果要实现一个存储型 XSS， 以上四点条件缺一不可。
+根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘流程如下图：
+1. 寻找可控输入点
+2. 判断输入内容是否输出并定位输出位置
+3. 根据 Html 环境构造 poc 进行漏洞验证</p>
 
 <h2 id="xss-防御">XSS 防御</h2>
+
+<h2 id="xss-利用">XSS 利用</h2>
 
 <h2 id="xss-工具">XSS 工具</h2>
 
@@ -363,9 +687,9 @@
     </div>
 
     <div class="post-nav">
-         
         
-        <a href="https://gkfnf.github.io/2018/google/" class="next" rel="next" title="Google Hacking">Google Hacking&nbsp;<i class="iconfont icon-right"></i></a>
+        <a href="https://gkfnf.github.io/2018/google/" class="prev" rel="prev" title="Google Hacking"><i class="iconfont icon-left"></i>&nbsp;Google Hacking</a>
+         
         
     </div>
 

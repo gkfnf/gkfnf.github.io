@@ -10,6 +10,510 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>1. XSS </title>
+      <link>https://gkfnf.github.io/2018/xss/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://gkfnf.github.io/2018/xss/</guid>
+      <description>
+
+&lt;h2 id=&#34;漏洞本质&#34;&gt;漏洞本质&lt;/h2&gt;
+
+&lt;p&gt;个人理解，安全漏洞主要是下边两个原因导致的：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;一 是未能正确区分数据和代码&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;二 是安全策略不周&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;怎么理解？&lt;/p&gt;
+
+&lt;h3 id=&#34;在二进制范畴里&#34;&gt;在二进制范畴里：&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;栈溢出 是因为数据把栈覆盖了被当成了代码被执行了&lt;/li&gt;
+&lt;li&gt;堆喷   是因为数据把堆覆盖了被当成了代码被执行了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;诸如 &lt;code&gt;格式化字符串&lt;/code&gt;， &lt;code&gt;UAF（释放后重用）&lt;/code&gt;, &lt;code&gt;DDOS(拒绝服务)&lt;/code&gt; 等基本可以说都是上边两种的子集。&lt;/p&gt;
+
+&lt;p&gt;这两种类型江湖人称 &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;- &lt;code&gt;溢出&lt;/code&gt;&lt;br /&gt;
+皆是因 &lt;strong&gt;未能正确区分数据和代码&lt;/strong&gt; 而掀起的腥风血雨&lt;/p&gt;
+
+&lt;p&gt;至于下边这几种：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;加密缺陷&lt;/li&gt;
+&lt;li&gt;凭据管理不当&lt;/li&gt;
+&lt;li&gt;信息泄露&lt;/li&gt;
+&lt;li&gt;。。。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;则基本都可以说是 &lt;strong&gt;安全策略考虑不周&lt;/strong&gt; 造成的&lt;/p&gt;
+
+&lt;h3 id=&#34;而在web范畴里&#34;&gt;而在Web范畴里：&lt;/h3&gt;
+
+&lt;p&gt;可以将 Web 分为八层来看待问题：
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/Web_Security_level.png&#34; alt=&#34;Web 安全问题分层&#34; /&gt;
+将特殊数据作为 Web 系统的输入, 根据是否对 &lt;strong&gt;数据和代码进行了正确区分&lt;/strong&gt;，在 Web 的各层便构成了不同种类的安全问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在操作系统层， 如果没有对输入数据处理好， 将数据当成了代码执行，便构成了 OS 命令执行的问题。   通常导致 OS 命令执行的是一些 RCE 漏洞, 这时构造的恶意数据便是我们二进制里说的 &lt;code&gt;Shellcode&lt;/code&gt;, 也就是汇编字节码。 &lt;br/&gt;但是有时候因为命令行的一些漏洞， 导致直接输入一些 Bash 或 Powershell 脚本得到了执行， 这时特殊数据便可能是一些命令行脚本， 如:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;rm -rm/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在数据的存储层， 如果没有处理好输入的数据， 数据库的 SQL 解析引擎把这个特殊数据当成代码执行了， 就导致了 sql 注入的问题, 可能的特殊数据便是 精心构造的 sql 语句, 如：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;&#39;union select user, pwd, 1, 2, 3, 4, from users--
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;而如果在 Web 容器层如 Nginx 中没有处理好输入的数据， 由于 Nginx 或 Apache 自身的漏洞，将特殊数据当成代码执行了, 便可能产生 远程溢出、 DDos 等安全问题; 可能的特殊数据是：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;%c0.%c0./%c0.%c0./%c0.%c0./%c0.%c0./%20 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;而在 Web 开发框架或 Web 应用层没有处理好输入的数据， 将特殊数据当成了代码执行，便产生了远程命令执行的问题，可能的特殊数据便是 精心构造的 php 的代码, 如：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt; eval($_REQUEST[&#39;x&#39;])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;而如果在 Web 前端层中没有处理好输入的数据， 浏览器的 JS 引擎把特殊数据当成了代码执行了， 便构成了 XSS 跨站脚本的安全问题， 可能特殊数据便是 精心构造的 Javascript 的代码, 如：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt; &#39;&amp;quot;&amp;gt;&amp;lt;script&amp;gt;alert(/Fkbug/)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上 Web 安全问题都是因为未能正确的处理输入的数据流，而将输入数据当成代码执行了， 即都是由于 &lt;strong&gt;未能正确区分数据和代码&lt;/strong&gt; 而导致的安全问题
+&lt;br/&gt;&lt;br/&gt;
+至于剩下的一些诸如：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;敏感信息泄露&lt;/li&gt;
+&lt;li&gt;逻辑漏洞&lt;/li&gt;
+&lt;li&gt;SSRF&lt;/li&gt;
+&lt;li&gt;CSRF&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&amp;hellip;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;大体上基本都是因为 &lt;strong&gt;安全策略考虑不周&lt;/strong&gt; 导致的&lt;/p&gt;
+
+&lt;h2 id=&#34;xss-原理&#34;&gt;XSS 原理&lt;/h2&gt;
+
+&lt;p&gt;说了这么多东西，可能有很多不理解的地方， 没关系，我们先从最简单的套路开始&lt;/p&gt;
+
+&lt;p&gt;即由于 &lt;strong&gt;Web 前端方面没有处理好输入的数据&lt;/strong&gt; 而导致的 &lt;code&gt;XSS 跨站脚本&lt;/code&gt; 漏洞。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;跨站脚本 (Cross-Site-Script, XSS)：&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了不与 &lt;code&gt;CSS&lt;/code&gt;（层叠样式表）命名冲突，我们把由于 &lt;strong&gt;Web 前端未能处理好输入的数据&lt;/strong&gt; 而导致的安全问题叫作 &lt;code&gt;XSS&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;那么 Web 前端是怎么就没处理好输入的数据的呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了解决这个问题，我们先 &lt;strong&gt;摸胸自问&lt;/strong&gt; 一下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;我有多了解网址 ？&lt;/li&gt;
+&lt;li&gt;我有多了解 HTTP ？&lt;/li&gt;
+&lt;li&gt;我有多了解网页 ？
+&lt;br/&gt;&lt;br/&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;1-web-基础知识&#34;&gt;1. Web 基础知识 ?&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;1. &lt;code&gt;url&lt;/code&gt;: (Uniform Resource Location)统一资源定位符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;url 也就是所谓的网址， 是一种特殊类型的 &lt;code&gt;uri&lt;/code&gt;(Uniform Resource Identifier) 统一资源标志符&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;用一串规定好的字符串来标识我们想要访问的网络资源，这样，当我们点击这个字符串或者在地址栏输入这个字符串时，
+浏览器就会按照预先定义好的解析方式来解析这个字符串，确定我们想要访问什么资源
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;WhatF ？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;说白了就是一套能唯一确定网络资源位置的命名方法&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ps&lt;/code&gt; :&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;这里的资源就包括了我们常见的视频、图片、网页、文本等等的所有万维网上的资源。&lt;/li&gt;
+&lt;li&gt;这种用一串特定格式的字符串来作为标识的方法, 也被用来标识 &lt;strong&gt;物理设备&lt;/strong&gt;：&lt;code&gt;MAC 地址&lt;/code&gt;、 或者 &lt;strong&gt;主机&lt;/strong&gt;：&lt;code&gt;IP 地址&lt;/code&gt;、 或 &lt;strong&gt;域名&lt;/strong&gt;：&lt;code&gt;DNS&lt;/code&gt; 等&lt;/li&gt;
+&lt;li&gt;而 &lt;code&gt;URL&lt;/code&gt; 与 &lt;code&gt;URI&lt;/code&gt; 的不同在于，&lt;code&gt;URL&lt;/code&gt; 这个字符串不仅标识了要访问的资源，还 &lt;strong&gt;表明了资源在网络上的位置和访问的方法&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;那么 &lt;code&gt;URL&lt;/code&gt; 是如何规定资源在网络上的位置和访问方法的呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# url 标准格式： 
+scheme : // IP :port /path   ?querystring1=value1  &amp;amp;querystring2=value2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scheme&lt;/code&gt;: 指定了底层使用的协议，常见的如 &lt;code&gt;HTTP/HTTPS/FTP&lt;/code&gt;, 目前浏览器一般默认为 &lt;code&gt;HTTP&lt;/code&gt; 开头&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IP/CNAME&lt;/code&gt;： 服务器的 &lt;code&gt;IP 地址&lt;/code&gt;或者&lt;code&gt;域名&lt;/code&gt;，&lt;code&gt;协议&lt;/code&gt;与 &lt;code&gt;IP&lt;/code&gt; 以 &lt;code&gt;//&lt;/code&gt;（两个反斜线）隔开，表明了访问的网络位置。 通常说的墙，也就是墙的 IP&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;port&lt;/code&gt;: &lt;code&gt;HTTP&lt;/code&gt; 默认端口为 80， &lt;code&gt;HTTPS&lt;/code&gt; 默认端口为 443。 如果当前请求为协议默认端口，则可省略端口号；如果不是默认端口，则需注明端口。并且，端口与域名之间用 &lt;code&gt;：&lt;/code&gt;（冒号）隔开。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;path&lt;/code&gt;：访问资源的路径。在服务器中以 &lt;code&gt;WWW&lt;/code&gt; 开头的路径， 通常表示访问文件的地点。 这个路径可以是相对路径，也可以是绝对路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;query-string&lt;/code&gt;: 发送给服务器的数据。此时, 应用 &lt;code&gt;GET 方式&lt;/code&gt; 传输才有效。 多个数据可用 &lt;code&gt;&amp;amp;&lt;/code&gt; 进行分割，实现多组数据同时传输&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以某新闻的链接为例：
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Url_format.png&#34; alt=&#34;url 标准格式&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到， 在一个 &lt;code&gt;URL&lt;/code&gt; 中：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;协议&lt;/code&gt;、&lt;code&gt;端口号&lt;/code&gt;、&lt;code&gt;发送给服务器的数据&lt;/code&gt; 表明了 &lt;strong&gt;访问资源的方法&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IP/域名&lt;/code&gt;、&lt;code&gt;资源路径&lt;/code&gt; 表明了 &lt;strong&gt;资源在网络上的位置&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;现在，我们对网址有了一点肤浅的认识了。&lt;/p&gt;
+
+&lt;p&gt;但是，&lt;strong&gt;浏览器解析完 &lt;code&gt;URL&lt;/code&gt;后， 确定了我们想访问的资源的位置之后， 具体又发生了什么？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;这便不得不提 &lt;code&gt;HTTP&lt;/code&gt;协议 了：
+&lt;br/&gt;&lt;br/&gt;
+&lt;strong&gt;2. &lt;code&gt;HTTP&lt;/code&gt;:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;HTTP (Hyper Text Transfer Protocol, 超文本传输协议) 是 WEB (World Wide Web, WWW) 
+# 万维网中客户端与服务端之间的交互标准
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://gkfnf.github.io/images/me/avatar.png&#34; alt=&#34;浏览器与服务器交互过程&#34; /&gt;
+浏览器解析完 &lt;code&gt;URL&lt;/code&gt; 后， 会向 &lt;code&gt;URL&lt;/code&gt; 中指定的 IP或域名 所对应的服务器发送一个 &lt;code&gt;HTTP 请求包&lt;/code&gt;， 然后服务器根据请求进行相应回应，并发出 &lt;code&gt;HTTP 响应包&lt;/code&gt;，浏览器收到响应包，解析出响应包中附带的网页，渲染出页面。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;HTTP 抓包工具&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了更直观的理解上边这个交互过程，我们先充值一波信仰：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://gkfnf.github.io/images/me/wallet1.png&#34; alt=&#34;梦想还是要有的， 万一真有人打钱了呢？&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;充值信仰，获得神器 &lt;code&gt;Burpsuite 1.72 专业版&lt;/code&gt;：&lt;a href=&#34;https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw&lt;/a&gt;&lt;br /&gt;
+&lt;p style=&#34;display:none;&#34;&gt;password: djvp&lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;神器说明：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;简介：
+&lt;code&gt;Burpsuite&lt;/code&gt; 是一款抓包神器， 常见的抓包神器还有 &lt;code&gt;Fiddler&lt;/code&gt;、&lt;code&gt;Wireshark&lt;/code&gt;。 这几款神器不同之处在于 Burpsuite 和 Fiddler 是 基于 HTTP 代理抓包的， 而 Wireshark 是基于网卡通信抓包的， 基本什么协议的都可以抓。 然后就是 Fiddler 更适合 MacOS&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;被动：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;远视&lt;/strong&gt;: 让你可以看到一定区域内网络的所有活动， 并可显示出隐形单位。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;篡改链&lt;/strong&gt;: 让你可以拦截并修改一定区域内网络的所有封包&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;主动:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Proxy&lt;/code&gt;: 消耗两点耐心，建立一个拦截 HTTP/HTTPS 的代理服务器，作为一个在浏览器和目标应用程序间的中间人，解锁神器其它技能， 使得使用者可以拦截、查看、修改在两个方向上的原始数据流。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Target&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Spider&lt;/code&gt; :&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Scanner&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Intruder&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Repeater&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Sequencer&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Decoder&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Comparer&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Extender&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Alerts&lt;/code&gt;:&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;神器前置要求：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;如果本机没有 &lt;code&gt;JRE&lt;/code&gt; ( Java 运行环境)，需先安装 &lt;code&gt;JRE&lt;/code&gt;， 因为神器是用 Java 写的，配置请参考: &lt;a href=&#34;http://www.runoob.com/java/java-environment-setup.html&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;http://www.runoob.com/java/java-environment-setup.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;解封神器， 压缩包解压以后， Windows下运行 BurpuUnlimited 目录下的 BurpUnlimited.jar， Mac 下同理。&lt;/li&gt;
+&lt;li&gt;每次使用需先设置代理：
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Burp_proxy.png&#34; alt=&#34;Burp 设置代理&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;HTTP 请求包:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;设置完代理后我们在 firefox 中访问 www.cn.bing.com 截获一个请求包&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;请求行： &lt;code&gt;Method Request-URI HTTP-Version CRLF&lt;/code&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Method&lt;/code&gt;: &lt;code&gt;请求方法&lt;/code&gt;: 用来告知 Web 服务器本次请求的主要目的。&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# HTTP 中定义了多种请求方法(所有方法均为大写) 如下:
+GET:                        请求获取 Request-URI 所标识的资源
+POST:                       在 Request-URI 所标识的资源后附加新的数据
+HEAD:                       请求获取由 Request-URI 所标识的资源的响应消息报头
+PUT:                        请求服务器存储一个资源， 并用 Request-URI 作为其标识
+DELETE:                     请求服务器删除 Request-URI 所标识的资源
+TRACE:                      请求服务器回送收到的请求信息， 主要用于测试或诊断
+CONNECT:                    保留，将来使用
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;HTTP 响应包：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;HTTP 状态码&lt;/code&gt;:
+&lt;code&gt;服务器状态码是用来告知客户端 Web 服务对本次请求的响应状态是什么。&lt;/code&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;1XX&lt;/code&gt;: 表示 &lt;strong&gt;提示信息&lt;/strong&gt; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;表明请求已被成功接收， 继续处理。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;2XX&lt;/code&gt;: 表示 &lt;strong&gt;成功&lt;/strong&gt; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;说明请求已被成功接收、理解、接受。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;3XX&lt;/code&gt;: 表示 &lt;strong&gt;重定向&lt;/strong&gt; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;要完成请求必须进行更进一步处理。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;4XX&lt;/code&gt;: 表示 &lt;strong&gt;客户端错误&lt;/strong&gt; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;请求有语法错误或请求无法实现。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;5XX&lt;/code&gt;: 表示 &lt;strong&gt;服务器端错误&lt;/strong&gt; &amp;nbsp;&amp;nbsp;服务器处理请求时出错。之后两位会利用不同的数字来代表当前服务的状态。&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;strong&gt;以下是常见的状态码及状态描述：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;200: Ok,                    客户端请求成功
+203: Temporarily Moved,     页面临时重定向
+301：Permanently Moved,     页面重定向
+400: Bad Request,           客户端请求有语法错误， 不能被服务器所理解
+401: Unauthorized,          请求未经授权， 这个状态码必须和 www-Authenticate 报头域一起用
+403: Forbidden,             服务器收到请求，但是拒绝提供服务
+404：Not Found,             请求资源不存在，或者请求无法实现
+500：Internal Server Error, 服务器发生不可预期的错误
+503: Server Unavailabe,     服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;HTTP 头参数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;user_agent&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;X-Forwarded-For&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Referer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Clien_ip&lt;/code&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Cookie&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;2-什么是-xss&#34;&gt;2. 什么是 XSS ?&lt;/h3&gt;
+
+&lt;h4 id=&#34;1-搭建环境&#34;&gt;1. 搭建环境&lt;/h4&gt;
+
+&lt;p&gt;为了便于理解，我们首先装一个小游戏 ：&lt;/p&gt;
+
+&lt;p&gt;在线地址： &lt;a href=&#34;http://test.xss.tv/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;http://test.xss.tv/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下载地址： &lt;a href=&#34;https://pan.baidu.com/s/1zS2GwTNbMBXEF2yNEBeLgA&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;https://pan.baidu.com/s/1zS2GwTNbMBXEF2yNEBeLgA&lt;/a&gt;   密码：85g8&lt;/p&gt;
+
+&lt;p&gt;最好自己本地搭建：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;直接安装 phpstudy 并勾选 mysql 等环境，方便快捷：
+官网：&lt;a href=&#34;http://phpstudy.php.cn&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;http://phpstudy.php.cn&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;phpstudy 安装好后运行、启动, 其他选项 &amp;ndash;&amp;gt; 打开网站根目录， 将下载下来的 xss 目录解压到这里&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;firefox 中打开: &lt;a href=&#34;http://127.0.0.1/xss/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1/xss/&lt;/a&gt; 进入游戏欢迎界面， 点击图片进入第一关，这里不用 chrome 打开的原因是 chrome 的 &lt;code&gt;x-xss-protection&lt;/code&gt; 保护会阻止 xss 的执行， 为了更直观一点这里用 firefox&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;首先来看 &lt;strong&gt;第一关&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;level1.php&lt;/code&gt; 及页面如下:
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Tv_level1.png&#34; alt=&#34;level1.php&#34; /&gt;
+分析代码 &lt;code&gt;level1.php&lt;/code&gt; 可以看到:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在数据输入时， 我们提交的 &lt;code&gt;GET&lt;/code&gt; 型请求的 &lt;code&gt;name&lt;/code&gt; 参数没有经过任何过滤便被保存到 &lt;code&gt;$str&lt;/code&gt; 变量中了&lt;/li&gt;
+&lt;li&gt;在数据输出时， &lt;code&gt;$str&lt;/code&gt; 也没有经过任何过滤便直接输出到了网页中。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;所以想触发第一关的 xss 便很简单了， 只需将 &lt;code&gt;name&lt;/code&gt; 参数的内容改为 &lt;code&gt;&amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;即可调用 &lt;code&gt;alert()&lt;/code&gt; 函数, 执行 &lt;code&gt;level1.php&lt;/code&gt; 中预定义的 &lt;code&gt;alert()&lt;/code&gt; 函数的响应脚本代码，跳转到 &lt;code&gt;level2.php&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;第二关&#34;&gt;第二关&lt;/h4&gt;
+
+&lt;p&gt;因为是本地搭建的所以在 firefox 中我们可以 &lt;code&gt;F12&lt;/code&gt; 中的 &lt;code&gt;Debugger&lt;/code&gt; 中直接查看 &lt;code&gt;php&lt;/code&gt; 的源码。
+如果是在线的也能看到网页的输出情况&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;既指由于 Web 应用程序 &lt;strong&gt;对用户输入过滤不足&lt;/strong&gt; 而导致网站被注入恶意脚本的漏洞&lt;/li&gt;
+&lt;li&gt;也可以理解成 &lt;strong&gt;攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中&lt;/strong&gt; 的攻击手段.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 &lt;strong&gt;Cookie 窃取、会话劫持、钓鱼欺骗&lt;/strong&gt; 等问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;一个 XSS 的攻击流程可能如下：&lt;/code&gt;
+&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Attack_flow.png&#34; alt=&#34;XSS攻击流程&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-xss-成因&#34;&gt;2. XSS 成因&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;考虑一段网页代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;test&amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当 Html 遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签时，对于该标签的 &lt;strong&gt;内容的控制权&lt;/strong&gt; 便直接移交给了 &lt;strong&gt;浏览器内置的脚本引擎&lt;/strong&gt; 进行处理了。&lt;/p&gt;
+
+&lt;p&gt;此时， Web 浏览器 &lt;strong&gt;只负责解释和执行标签内的 Javascript 等脚本语言&lt;/strong&gt; ，而 &lt;strong&gt;不会去判断代码本身是否对用户有害&lt;/strong&gt;。
+这便构成了 Web 浏览器 &lt;strong&gt;安全机制上的固有缺陷&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;后果便是， 只需能在 Html 代码中插入一对小小的 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;&lt;br /&gt;
+即可将恶意的脚本嵌入网页中。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;若要使网页不停地刷新，可使用代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;meta http-equiv=&amp;quot;refresh&amp;quot; content=&amp;quot;0;&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;要想嵌入其它网站的链接，可使用代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=http://www.fkbug.com width=0 height=0&amp;gt;&amp;lt;/iframe&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;更广泛的情况是， Html 以 PHP 进行后端处理， 动态地生成网页。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;假设 &lt;code&gt;XSS.Php&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt; 测试结果 &amp;lt;/title&amp;gt;
+    &amp;lt;body&amp;gt;
+    &amp;lt;?php
+      echo $_REQUEST[name];
+    ?&amp;gt;
+    &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;code&gt;.html&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+  &amp;lt;title&amp;gt; XSS 测试 &amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;form action=&amp;quot;XSS.php&amp;quot; method=&amp;quot;POST&amp;quot;&amp;gt;
+    请输入名字： &amp;lt;br&amp;gt;
+    &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; value=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
+    &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;提交&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;
+&lt;code&gt;XSS.php&lt;/code&gt; 的作用是让用户在文本框中输入名字并且显示在页面上，由于用户输入&lt;strong&gt;未进行任何过滤就直接 echo 输出了&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;也就是说我们可以随意的插入一些 &lt;code&gt;Html/Javascript&lt;/code&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后单击提交按钮，&lt;code&gt;XSS.php&lt;/code&gt; 即会原封不动的将我们在文本框中输入的 &lt;code&gt;JS代码&lt;/code&gt; 插入到生成的网页中， 然后浏览器开始解析网页，当遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签，浏览器脚本引擎开始执行我们插入的脚本代码， 一个 &lt;strong&gt;XSS漏洞&lt;/strong&gt; 就这样出现了 ！&lt;/p&gt;
+
+&lt;p&gt;同时由于 &lt;code&gt;XSS.php&lt;/code&gt; 使用 &lt;code&gt;$_REQUEST[name]&lt;/code&gt; 来获取用户输入的 &lt;code&gt;name&lt;/code&gt; 变量，我们还可以用 &lt;code&gt;GET&lt;/code&gt; 请求的方式来触发 &lt;code&gt;XSS&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;即直接在浏览器中访问：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-url&#34;&gt;http://127.0.0.0.1/XSS.php?name=&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-xss-分类&#34;&gt;3. XSS 分类&lt;/h3&gt;
+
+&lt;p&gt;XSS 攻击通常在 &lt;strong&gt;用户访问目标网站时或者之后进行某项动作时触发并执行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;根据攻击代码的存在地点及是否被服务器存储&lt;/strong&gt;，即 XSS 攻击的存在形式，以及产生的效果&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;主要分为三类：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;反射型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存在反射型 XSS 漏洞的页面只是将用户输入的数据通过 URL 的形式 &lt;strong&gt;直接或未经过完善的安全过滤就在浏览器中进行输出，会导致输出的数据中存在可被浏览器执行的代码数据&lt;/strong&gt; 。由于此类跨站代码存在于 URL 中，因此通常需要通过诱骗或加密变形等方式,将存在恶意代码的链接发给用户，只有用户点击以后才能使攻击成功实施。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;存储型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器——————数据库交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击是指 Web 应用程序将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示。只要用户访问具有 XSS 攻击脚本的网页时，就会触发攻击效果，因此存储型 XSS 具有较强的稳定性。
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击最为常见的场景就是在博客或新闻发布系统中，黑客将包含恶意代码的数据信息直接写入文章或文章评论中，所有浏览文章或评论的用户就会被黑客在他们的客户端浏览器环境中执行插入的恶意代码。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;DOM 型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;严格意义上来说， 基于 DOM 的 XSS 攻击并非按照 “数据是否保存在服务器端” 来划分， 其从效果上来说也算是反射型 XSS。 但是这种 XSS 实现的方法比较特殊，是由 Javascript 的 DOM 节点编程可以改变 Html 这个特性而形成的 XSS 攻击。 不同于反射型 XSS 和存储型 XSS， 基于 DOM 的 XSS 攻击往往需要针对具体的 Javascript DOM 代码进行分析， 并根据实际情况进行 XSS 攻击的利用。 但实际利用中， 由于构造语句具有较大的难度， 且实现效果及要求较为苛刻， 因此较为少见。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;xss-学习&#34;&gt;XSS 学习&lt;/h2&gt;
+
+&lt;p&gt;上面讲了一堆原理性的东西，可能还是感觉一脸懵逼，所以这里做一些 xss 的练习&lt;/p&gt;
+
+&lt;h3 id=&#34;1-xss-通关小游戏&#34;&gt;1. XSS 通关小游戏：&lt;/h3&gt;
+
+&lt;h2 id=&#34;xss-绕过&#34;&gt;XSS 绕过&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-挖掘&#34;&gt;XSS 挖掘&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-xss-攻击的条件&#34;&gt;1. XSS 攻击的条件&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; XSS 漏洞的利用过程较为直接。&lt;/p&gt;
+
+&lt;p&gt;反射型/DOM 型 跨站攻击均可以理解为： 服务器接收到数据，并原样返回给用户， 整个 Web 应用并没有自身的存储过程(存入数据库)。这也就导致了攻击无法持久化，仅针对当次请求有效， 也就无法直接攻击其他用户。 当然，这两类攻击也可利用钓鱼、垃圾邮件等手段产生攻击其他用户的效果。但是需要在社会工程学的配合下执行。 随着目前浏览器的各类过滤措施愈发严格， 在实战过程中这类攻击的成功率、 效果及危害程度均不高。但也需要关注这类风险。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 我们重点关注存储型 XSS 攻击。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 假设攻击者要想成功实施存储型跨站脚本攻击，那么必须对业务流程进行了解，业务流程一般如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Main_service_flow.png&#34; alt=&#34;存储型跨站主要业务流程&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从业务流程入手可发现， 其中两个业务流程比较关键：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;入库处理： 攻击脚本需存储在数据库中，可供当前应用的使用者读取。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;出库处理： 由当前功能的使用者按照正常的业务流程从数据库中读取信息，这时攻击脚本开始执行。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在以上两个关键点之内， 再对攻击进行分析， 并结合 XSS 攻击的特性可知， XSS 攻击成功必须要满足以下四个条件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;入库处理:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;目标网页有攻击者可控的输入点&lt;/li&gt;
+&lt;li&gt;输入信息可以在受害者的浏览器中显示&lt;/li&gt;
+&lt;li&gt;输入具备功能的可执行脚本，且在信息输入和输出的过程中没有特殊字符的过滤和字符转义等防护措施， 或者说防护措施可以通过一定的手段绕过&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;出库处理：
+浏览器器将输入解析为脚本，并具备执行该脚本的能力。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果要实现一个存储型 XSS， 以上四点条件缺一不可。
+根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘流程如下图：
+1. 寻找可控输入点
+2. 判断输入内容是否输出并定位输出位置
+3. 根据 Html 环境构造 poc 进行漏洞验证&lt;/p&gt;
+
+&lt;h2 id=&#34;xss-防御&#34;&gt;XSS 防御&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-利用&#34;&gt;XSS 利用&lt;/h2&gt;
+
+&lt;h2 id=&#34;xss-工具&#34;&gt;XSS 工具&lt;/h2&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Google Hacking</title>
       <link>https://gkfnf.github.io/2018/google/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
@@ -229,191 +733,6 @@
 &lt;li&gt;网站链接&lt;/li&gt;
 &lt;li&gt;常见问题&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>XSS 相关</title>
-      <link>https://gkfnf.github.io/2018/xss/</link>
-      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
-      
-      <guid>https://gkfnf.github.io/2018/xss/</guid>
-      <description>
-
-&lt;h2 id=&#34;xss-原理&#34;&gt;XSS 原理&lt;/h2&gt;
-
-&lt;h3 id=&#34;1-什么是-xss&#34;&gt;1. 什么是 XSS&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;跨站脚本 (Cross-Site-Script, XSS)：&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;既指由于 Web 应用程序 &lt;strong&gt;对用户输入过滤不足&lt;/strong&gt; 而导致网站被注入恶意脚本的漏洞&lt;/li&gt;
-&lt;li&gt;也可以理解成 &lt;strong&gt;攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中&lt;/strong&gt; 的攻击手段.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 &lt;strong&gt;Cookie 窃取、会话劫持、钓鱼欺骗&lt;/strong&gt; 等问题。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;一个 XSS 的攻击流程可能如下：&lt;/code&gt;
-&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Attack_flow.png&#34; alt=&#34;XSS攻击流程&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;2-xss-成因&#34;&gt;2. XSS 成因&lt;/h3&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;考虑一段网页代码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
-  &amp;lt;head&amp;gt;test&amp;lt;/head&amp;gt;
-  &amp;lt;body&amp;gt;
-    &amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt;
-  &amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;当 Html 遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 标签时，对于该标签的 &lt;strong&gt;内容的控制权&lt;/strong&gt; 便直接移交给了 &lt;strong&gt;浏览器内置的脚本引擎&lt;/strong&gt; 进行处理了。&lt;/p&gt;
-
-&lt;p&gt;此时， Web 浏览器 &lt;strong&gt;只负责解释和执行标签内的 Javascript 等脚本语言&lt;/strong&gt; ，而 &lt;strong&gt;不会去判断代码本身是否对用户有害&lt;/strong&gt;。
-这便构成了 Web 浏览器 &lt;strong&gt;安全机制上的固有缺陷&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;后果便是， 只需能在 Html 代码中插入一对小小的 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;&lt;br /&gt;
-即可将恶意的脚本嵌入网页中。&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;若要使网页不停地刷新，可使用代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;meta http-equiv=&amp;quot;refresh&amp;quot; content=&amp;quot;0;&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;要想嵌入其它网站的链接，可使用代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;iframe src=http://www.fkbug.com width=0 height=0&amp;gt;&amp;lt;/iframe&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;更广泛的情况是， Html 以 PHP 进行后端处理， 动态地生成网页。&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;假设 &lt;code&gt;XSS.Php&lt;/code&gt; ：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;&amp;lt;html&amp;gt;
-    &amp;lt;head&amp;gt;
-    &amp;lt;title&amp;gt; 测试结果 &amp;lt;/title&amp;gt;
-    &amp;lt;body&amp;gt;
-    &amp;lt;?php
-      echo $_REQUEST[name];
-    ?&amp;gt;
-    &amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;code&gt;.html&lt;/code&gt; ：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;html&amp;gt;
-  &amp;lt;head&amp;gt;
-  &amp;lt;title&amp;gt; XSS 测试 &amp;lt;/title&amp;gt;
-  &amp;lt;/head&amp;gt;
-  &amp;lt;body&amp;gt;
-    &amp;lt;form action=&amp;quot;XSS.php&amp;quot; method=&amp;quot;POST&amp;quot;&amp;gt;
-    请输入名字： &amp;lt;br&amp;gt;
-    &amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; value=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
-    &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;提交&amp;quot;&amp;gt;&amp;lt;/input&amp;gt;
-  &amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;br&gt;
-&lt;code&gt;XSS.php&lt;/code&gt; 的作用是让用户在文本框中输入名字并且显示在页面上，由于用户输入&lt;strong&gt;未进行任何过滤就直接 echo 输出了&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;也就是说我们可以随意的插入一些 &lt;code&gt;Html/Javascript&lt;/code&gt; :&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后单击提交按钮，&lt;code&gt;XSS.php&lt;/code&gt; 即会原封不动的将我们在文本框中输入的 &lt;code&gt;JS代码&lt;/code&gt; 插入到生成的网页中， 然后浏览器开始解析网页，当遇到 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签，浏览器脚本引擎开始执行我们插入的脚本代码， 一个 &lt;strong&gt;XSS漏洞&lt;/strong&gt; 就这样出现了 ！&lt;/p&gt;
-
-&lt;p&gt;同时由于 &lt;code&gt;XSS.php&lt;/code&gt; 使用 &lt;code&gt;$_REQUEST[name]&lt;/code&gt; 来获取用户输入的 &lt;code&gt;name&lt;/code&gt; 变量，我们还可以用 &lt;code&gt;GET&lt;/code&gt; 请求的方式来触发 &lt;code&gt;XSS&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;即直接在浏览器中访问：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-url&#34;&gt;http://127.0.0.0.1/XSS.php?name=&amp;lt;script&amp;gt;alert(/XSS/)&amp;lt;script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;3-xss-分类&#34;&gt;3. XSS 分类&lt;/h3&gt;
-
-&lt;p&gt;XSS 攻击通常在 &lt;strong&gt;用户访问目标网站时或者之后进行某项动作时触发并执行&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;根据攻击代码的存在地点及是否被服务器存储&lt;/strong&gt;，即 XSS 攻击的存在形式，以及产生的效果&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;主要分为三类：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;反射型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存在反射型 XSS 漏洞的页面只是将用户输入的数据通过 URL 的形式 &lt;strong&gt;直接或未经过完善的安全过滤就在浏览器中进行输出，会导致输出的数据中存在可被浏览器执行的代码数据&lt;/strong&gt; 。由于此类跨站代码存在于 URL 中，因此通常需要通过诱骗或加密变形等方式,将存在恶意代码的链接发给用户，只有用户点击以后才能使攻击成功实施。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;存储型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器——————数据库交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击是指 Web 应用程序将用户输入的数据信息保存在服务端的数据库或其他文件形式中，网页进行数据查询展示时，会从数据库中获取数据内容，并将数据内容在网页中进行输出展示。只要用户访问具有 XSS 攻击脚本的网页时，就会触发攻击效果，因此存储型 XSS 具有较强的稳定性。
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;存储型 XSS 脚本攻击最为常见的场景就是在博客或新闻发布系统中，黑客将包含恶意代码的数据信息直接写入文章或文章评论中，所有浏览文章或评论的用户就会被黑客在他们的客户端浏览器环境中执行插入的恶意代码。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;DOM 型 XSS&lt;/code&gt;&lt;/strong&gt;:  &lt;font size=&#34;2&#34;&gt;涉及浏览器——————服务器交互&lt;/font&gt;&lt;br/&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;严格意义上来说， 基于 DOM 的 XSS 攻击并非按照 “数据是否保存在服务器端” 来划分， 其从效果上来说也算是反射型 XSS。 但是这种 XSS 实现的方法比较特殊，是由 Javascript 的 DOM 节点编程可以改变 Html 这个特性而形成的 XSS 攻击。 不同于反射型 XSS 和存储型 XSS， 基于 DOM 的 XSS 攻击往往需要针对具体的 Javascript DOM 代码进行分析， 并根据实际情况进行 XSS 攻击的利用。 但实际利用中， 由于构造语句具有较大的难度， 且实现效果及要求较为苛刻， 因此较为少见。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&#34;4-xss-攻击条件&#34;&gt;4. XSS 攻击条件&lt;/h3&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; XSS 漏洞的利用过程较为直接。&lt;/p&gt;
-
-&lt;p&gt;反射型/DOM 型 跨站攻击均可以理解为： 服务器接收到数据，并原样返回给用户， 整个 Web 应用并没有自身的存储过程(存入数据库)。这也就导致了攻击无法持久化，仅针对当次请求有效， 也就无法直接攻击其他用户。 当然，这两类攻击也可利用钓鱼、垃圾邮件等手段产生攻击其他用户的效果。但是需要在社会工程学的配合下执行。 随着目前浏览器的各类过滤措施愈发严格， 在实战过程中这类攻击的成功率、 效果及危害程度均不高。但也需要关注这类风险。&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 我们重点关注存储型 XSS 攻击。&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 假设攻击者要想成功实施存储型跨站脚本攻击，那么必须对业务流程进行了解，业务流程一般如下图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://gkfnf.github.io/images/xss/xss_Main_service_flow.png&#34; alt=&#34;存储型跨站主要业务流程&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;从业务流程入手可发现， 其中两个业务流程比较关键：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;入库处理： 攻击脚本需存储在数据库中，可供当前应用的使用者读取。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;出库处理： 由当前功能的使用者按照正常的业务流程从数据库中读取信息，这时攻击脚本开始执行。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;在以上两个关键点之内， 再对攻击进行分析， 并结合 XSS 攻击的特性可知， XSS 攻击成功必须要满足以下四个条件：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;入库处理:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;目标网页有攻击者可控的输入点&lt;/li&gt;
-&lt;li&gt;输入信息可以在受害者的浏览器中显示&lt;/li&gt;
-&lt;li&gt;输入具备功能的可执行脚本，且在信息输入和输出的过程中没有特殊字符的过滤和字符转义等防护措施， 或者说防护措施可以通过一定的手段绕过&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;出库处理：
-浏览器器将输入解析为脚本，并具备执行该脚本的能力。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;如果要实现一个存储型 XSS， 以上四点条件缺一不可。&lt;/p&gt;
-
-&lt;h2 id=&#34;xss-挖掘&#34;&gt;XSS 挖掘&lt;/h2&gt;
-
-&lt;p&gt;根据 XSS 攻击的四点条件，不难得出标准的 XSS 漏洞的挖掘流程如下图：&lt;/p&gt;
-
-&lt;h2 id=&#34;xss-绕过&#34;&gt;XSS 绕过&lt;/h2&gt;
-
-&lt;h2 id=&#34;xss-学习&#34;&gt;XSS 学习&lt;/h2&gt;
-
-&lt;h2 id=&#34;xss-利用&#34;&gt;XSS 利用&lt;/h2&gt;
-
-&lt;h2 id=&#34;xss-防御&#34;&gt;XSS 防御&lt;/h2&gt;
-
-&lt;h2 id=&#34;xss-工具&#34;&gt;XSS 工具&lt;/h2&gt;
 </description>
     </item>
     

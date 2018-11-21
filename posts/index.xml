@@ -12,6 +12,25 @@
     
     
     <item>
+      <title>1. XSS </title>
+      <link>https://gkfnf.github.io/2018/xss/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://gkfnf.github.io/2018/xss/</guid>
+      <description>漏洞本质 个人理解，安全漏洞主要是下边两个原因导致的：
+一 是未能正确区分数据和代码
+二 是安全策略不周
+怎么理解？
+在二进制范畴里：  栈溢出 是因为数据把栈覆盖了被当成了代码被执行了 堆喷 是因为数据把堆覆盖了被当成了代码被执行了  诸如 格式化字符串， UAF（释放后重用）, DDOS(拒绝服务) 等基本可以说都是上边两种的子集。
+这两种类型江湖人称 &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;- 溢出
+皆是因 未能正确区分数据和代码 而掀起的腥风血雨
+至于下边这几种：
+ 加密缺陷 凭据管理不当 信息泄露 。。。  则基本都可以说是 安全策略考虑不周 造成的
+而在Web范畴里： 可以将 Web 分为八层来看待问题： 将特殊数据作为 Web 系统的输入, 根据是否对 数据和代码进行了正确区分，在 Web 的各层便构成了不同种类的安全问题：
+ 在操作系统层， 如果没有对输入数据处理好， 将数据当成了代码执行，便构成了 OS 命令执行的问题。 通常导致 OS 命令执行的是一些 RCE 漏洞, 这时构造的恶意数据便是我们二进制里说的 Shellcode, 也就是汇编字节码。 但是有时候因为命令行的一些漏洞， 导致直接输入一些 Bash 或 Powershell 脚本得到了执行， 这时特殊数据便可能是一些命令行脚本， 如:  rm -rm/   在数据的存储层， 如果没有处理好输入的数据， 数据库的 SQL 解析引擎把这个特殊数据当成代码执行了， 就导致了 sql 注入的问题, 可能的特殊数据便是 精心构造的 sql 语句, 如：  &#39;union select user, pwd, 1, 2, 3, 4, from users--   而如果在 Web 容器层如 Nginx 中没有处理好输入的数据， 由于 Nginx 或 Apache 自身的漏洞，将特殊数据当成代码执行了, 便可能产生 远程溢出、 DDos 等安全问题; 可能的特殊数据是：  %c0.</description>
+    </item>
+    
+    <item>
       <title>Google Hacking</title>
       <link>https://gkfnf.github.io/2018/google/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
@@ -19,20 +38,6 @@
       <guid>https://gkfnf.github.io/2018/google/</guid>
       <description>##Google 搜索基础知识 1. 探索 Google 的搜索界面 2. 建立 Google 查询 3. 使用 Google URL 4. 总结 5. 快速查找解决方案 6. 网站链接 7. 常见问题
 高级操作符  在页面标题中搜索 在网页内容里查找字符串 在 URL 中查找文本 把搜索精确到特定的站点 搜索指定类型的文件 搜索与当前网页存在链接的网页 在链接文本中查找文本 显示网页的缓存版本 搜索数字 查找在某个特定日期范围内发布的网页 显示 Google 的摘要信息 搜索 Groups 中新闻组帖子的作者 搜索 Group 标题 搜索 Google Group 主题行 通过消息 ID 来查找 Group 帖子 搜索股票信息 显示某个术语的定义 搜索电话列表 快速查找解决方案 网站链接 常见问题  Google Hacking 基础  使用缓存进行匿名浏览 目录列表 查找目录列表 查找特定的目录 查找特定的文件 服务器的版本 遍历技术 目录遍历 递增置换 拓展遍历 快速查找解决方案 网站链接 常见问题  文档加工与数据库挖掘  配置文件 日志文件 数据库挖掘 登录入口 帮助文件 错误消息 数据库转储 实际的数据库文件 自动加工 Google 桌面搜索 快速查找解决方案 网站链接 常见问题  Google 在信息收集框架中扮演的角色  自动搜索原则 原始搜索关键字 扩展搜索关键字 从数据源获取数据 解析数据 后期处理 数据挖掘的应用 收集搜索关键字 在 Web 上收集 自行收集 甜言蜜语 引用者  搜索漏洞利用与查找目标  搜索漏洞利用代码 通过常见代码字符串搜索漏洞利用 使用 Google 代码搜索查找代码 搜索恶意软件和可执行文件 搜索易受攻击的目标 利用演示页面搜索目标 利用源代码搜索目标 利用 CGI 扫描搜索目标 快速查找解决方案 网站链接 常见问题  简单有效的安全性搜索  site intitle:index.</description>
-    </item>
-    
-    <item>
-      <title>XSS 相关</title>
-      <link>https://gkfnf.github.io/2018/xss/</link>
-      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
-      
-      <guid>https://gkfnf.github.io/2018/xss/</guid>
-      <description>XSS 原理 1. 什么是 XSS 跨站脚本 (Cross-Site-Script, XSS)：
- 既指由于 Web 应用程序 对用户输入过滤不足 而导致网站被注入恶意脚本的漏洞 也可以理解成 攻击者利用网站漏洞把恶意的脚本代码（通常包括 html 代码和客户端 Javascript 脚本) 注入到网页之中 的攻击手段.  当其它用户浏览这些被注入过的网页时，就会执行其中的恶意代码，可能遭致 Cookie 窃取、会话劫持、钓鱼欺骗 等问题。
-一个 XSS 的攻击流程可能如下： 2. XSS 成因  XSS 完全是因为 Web 浏览器本身的安全设计缺陷导致的 ！！！
- &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;考虑一段网页代码如下：
-&amp;lt;html&amp;gt; &amp;lt;head&amp;gt;test&amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt;  当 Html 遇到 &amp;lt;script&amp;gt; 标签时，对于该标签的 内容的控制权 便直接移交给了 浏览器内置的脚本引擎 进行处理了。
-此时， Web 浏览器 只负责解释和执行标签内的 Javascript 等脚本语言 ，而 不会去判断代码本身是否对用户有害。 这便构成了 Web 浏览器 安全机制上的固有缺陷。</description>
     </item>
     
   </channel>
