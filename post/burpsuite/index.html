@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Burpsuite  &middot; Fkbug </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.51" />
+
+
+
+
+<link rel="stylesheet" href="/css/vec.min.css">
+
+<link rel="stylesheet" href="/css/prism.css">
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Fkbug" />
+
+
+
+
+<script src="/js/prism.js" async="" ></script>
+
+
+<script src="/js/btn.js" async=""></script>
+
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left">
+        <a href="/post/burpsuite/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+      </li>
+      <li class="pull-left">
+        <a href="https://www.fkbug.com">fkbug</a>
+      </li>
+      
+      
+      <li class="pull-left">
+        <a href="/categories">post</a>
+      </li>
+      
+      <li class="pull-right">
+        <a href=""><i class="fas fa-lightbulb" id="bulb_btn"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="content toc">
+    
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://www.fkbug.com/post/burpsuite/">Burpsuite </a></h1>
+      <span class="post-date">Oct 13, 2018 </span>
+      <div class="post-content">
+        <p><strong>HTTP 抓包工具</strong></p>
+
+<p>为了更直观的理解上边这个交互过程，我们先充值一波信仰：</p>
+
+<p><img src="/images/me/wallet1.png" alt="梦想还是要有的， 万一真有人打钱了呢？" /></p>
+
+<p>充值信仰，获得神器 <code>Burpsuite 1.72 专业版</code>：<a href="https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw">https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw</a><br />
+<p style="display:none;">password: djvp</p></p>
+
+<p>神器说明：</p>
+
+<ul>
+<li>简介：
+<code>Burpsuite</code> 是一款抓包神器， 常见的抓包神器还有 <code>Fiddler</code>、<code>Wireshark</code>。 这几款神器不同之处在于 Burpsuite 和 Fiddler 是 基于 HTTP 代理抓包的， 而 Wireshark 是基于网卡通信抓包的， 基本什么协议的都可以抓。 然后就是 Fiddler 更适合 MacOS</li>
+
+<li><p>被动：</p>
+
+<ol>
+<li><strong>远视</strong>: 让你可以看到一定区域内网络的所有活动， 并可显示出隐形单位。</li>
+<li><strong>篡改链</strong>: 让你可以拦截并修改一定区域内网络的所有封包</li>
+</ol></li>
+
+<li><p>主动:</p>
+
+<ol>
+<li><code>Proxy</code>: 消耗两点耐心，建立一个拦截 HTTP/HTTPS 的代理服务器，作为一个在浏览器和目标应用程序间的中间人，解锁神器其它技能， 使得使用者可以拦截、查看、修改在两个方向上的原始数据流。</li>
+<li><code>Target</code>:</li>
+<li><code>Spider</code> :</li>
+<li><code>Scanner</code>:</li>
+<li><code>Intruder</code>:</li>
+<li><code>Repeater</code>:</li>
+<li><code>Sequencer</code>:</li>
+<li><code>Decoder</code>:</li>
+<li><code>Comparer</code>:</li>
+<li><code>Extender</code>:</li>
+<li><code>Alerts</code>:</li>
+</ol></li>
+</ul>
+
+<p>神器前置要求：</p>
+
+<ul>
+<li>如果本机没有 <code>JRE</code> ( Java 运行环境)，需先安装 <code>JRE</code>， 因为神器是用 Java 写的，配置请参考: <a href="http://www.runoob.com/java/java-environment-setup.html">http://www.runoob.com/java/java-environment-setup.html</a></li>
+<li>解封神器， 压缩包解压以后， Windows下运行 BurpuUnlimited 目录下的 BurpUnlimited.jar， Mac 下同理。</li>
+<li>每次使用需先设置代理：
+<img src="/images/xss/xss_Burp_proxy.png" alt="Burp 设置代理" /></li>
+</ul>
+
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+      
+      <a class="btn previous " href="https://www.fkbug.com/post/google/"> Google Hacking </a> 
+       
+      
+      <a class="btn next " href="https://www.fkbug.com/post/xss/"> 0. XSS 基础  </a> 
+      
+    </section>
+    
+     
+ <div class="comments">
+   <script src= "https://utteranc.es/client.js"
+         repo= "gkfnf/utterances"
+         issue-term= "pathname"
+         theme= "github-light"
+         crossorigin="anonymous"
+         async>
+   </script>
+ </div>
+
+
+
+
+
+
+  </div>
+  
+  <footer>
+    <script src="//yihui.name/js/math-code.js"></script>
+    <script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:978694661@qq.com?subject="><i class="far fa-envelope"></i> Fkbug</a>
+      |
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">0.51  </a>|
+        <a href="https://github.com/IvanChou/yii.im" title="vec">Fk</a>  
+      |
+      <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>
+    </p>
+  </div>
+</footer>
+  
+
+  
+
+</body>
+
+</html>

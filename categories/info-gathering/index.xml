@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Info Gathering on Fkbug</title>
+    <link>https://www.fkbug.com/categories/info-gathering/</link>
+    <description>Recent content in Info Gathering on Fkbug</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.fkbug.com/categories/info-gathering/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Google Hacking</title>
+      <link>https://www.fkbug.com/post/google/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://www.fkbug.com/post/google/</guid>
+      <description>##Google 搜索基础知识 1. 探索 Google 的搜索界面 2. 建立 Google 查询 3. 使用 Google URL 4. 总结 5. 快速查找解决方案 6. 网站链接 7. 常见问题
+高级操作符  在页面标题中搜索 在网页内容里查找字符串 在 URL 中查找文本 把搜索精确到特定的站点 搜索指定类型的文件 搜索与当前网页存在链接的网页 在链接文本中查找文本 显示网页的缓存版本 搜索数字 查找在某个特定日期范围内发布的网页 显示 Google 的摘要信息 搜索 Groups 中新闻组帖子的作者 搜索 Group 标题 搜索 Google Group 主题行 通过消息 ID 来查找 Group 帖子 搜索股票信息 显示某个术语的定义 搜索电话列表 快速查找解决方案 网站链接 常见问题  Google Hacking 基础  使用缓存进行匿名浏览 目录列表 查找目录列表 查找特定的目录 查找特定的文件 服务器的版本 遍历技术 目录遍历 递增置换 拓展遍历 快速查找解决方案 网站链接 常见问题  文档加工与数据库挖掘  配置文件 日志文件 数据库挖掘 登录入口 帮助文件 错误消息 数据库转储 实际的数据库文件 自动加工 Google 桌面搜索 快速查找解决方案 网站链接 常见问题  Google 在信息收集框架中扮演的角色  自动搜索原则 原始搜索关键字 扩展搜索关键字 从数据源获取数据 解析数据 后期处理 数据挖掘的应用 收集搜索关键字 在 Web 上收集 自行收集 甜言蜜语 引用者  搜索漏洞利用与查找目标  搜索漏洞利用代码 通过常见代码字符串搜索漏洞利用 使用 Google 代码搜索查找代码 搜索恶意软件和可执行文件 搜索易受攻击的目标 利用演示页面搜索目标 利用源代码搜索目标 利用 CGI 扫描搜索目标 快速查找解决方案 网站链接 常见问题  简单有效的安全性搜索  site intitle:index.</description>
+    </item>
+    
+  </channel>
+</rss>

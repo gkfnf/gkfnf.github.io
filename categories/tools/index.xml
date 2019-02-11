@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tools on Fkbug</title>
+    <link>https://www.fkbug.com/categories/tools/</link>
+    <description>Recent content in Tools on Fkbug</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.fkbug.com/categories/tools/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Burpsuite </title>
+      <link>https://www.fkbug.com/post/burpsuite/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://www.fkbug.com/post/burpsuite/</guid>
+      <description>HTTP 抓包工具
+为了更直观的理解上边这个交互过程，我们先充值一波信仰：
+充值信仰，获得神器 Burpsuite 1.72 专业版：https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw
+password: djvp
+神器说明：
+ 简介： Burpsuite 是一款抓包神器， 常见的抓包神器还有 Fiddler、Wireshark。 这几款神器不同之处在于 Burpsuite 和 Fiddler 是 基于 HTTP 代理抓包的， 而 Wireshark 是基于网卡通信抓包的， 基本什么协议的都可以抓。 然后就是 Fiddler 更适合 MacOS 被动：
+ 远视: 让你可以看到一定区域内网络的所有活动， 并可显示出隐形单位。 篡改链: 让你可以拦截并修改一定区域内网络的所有封包  主动:
+ Proxy: 消耗两点耐心，建立一个拦截 HTTP/HTTPS 的代理服务器，作为一个在浏览器和目标应用程序间的中间人，解锁神器其它技能， 使得使用者可以拦截、查看、修改在两个方向上的原始数据流。 Target: Spider : Scanner: Intruder: Repeater: Sequencer: Decoder: Comparer: Extender: Alerts:   神器前置要求：
+ 如果本机没有 JRE ( Java 运行环境)，需先安装 JRE， 因为神器是用 Java 写的，配置请参考: http://www.</description>
+    </item>
+    
+  </channel>
+</rss>

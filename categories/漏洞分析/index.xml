@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>漏洞分析 on Fkbug</title>
+    <link>https://www.fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+    <description>Recent content in 漏洞分析 on Fkbug</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>0. Base Architecture</title>
+      <link>https://www.fkbug.com/post/vulnerability/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://www.fkbug.com/post/vulnerability/</guid>
+      <description>漏洞成因 个人理解，安全漏洞主要是下边两个原因导致的：
+一 是未能正确区分数据和代码
+二 是安全策略不周
+怎么理解？
+test1 test2 test3 test6 test1 test2 test3 test6 test1 test2 test3 test6 test1 test2 test3 test6 test1 test2 test3 test6 Web 安全框架： 当我们访问一个网站时，具体发生了什么 ？
+我们用一张图来说明： 为了解决这个问题，我们先 摸胸自问 一下：
+ 我有多了解网址 ？ 我有多了解 HTTP ？ 我有多了解网页 ？   1. Web 基础知识 ? 1. url: (Uniform Resource Location)统一资源定位符
+url 也就是所谓的网址， 是一种特殊类型的 uri(Uniform Resource Identifier) 统一资源标志符
+用一串规定好的字符串来标识我们想要访问的网络资源，这样，当我们点击这个字符串或者在地址栏输入这个字符串时， 浏览器就会按照预先定义好的解析方式来解析这个字符串，确定我们想要访问什么资源  WhatF ？
+说白了就是一套能唯一确定网络资源位置的命名方法
+ps :</description>
+    </item>
+    
+  </channel>
+</rss>

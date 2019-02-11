@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Google Hacking &middot; Fkbug </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.51" />
+
+
+
+
+<link rel="stylesheet" href="/css/vec.min.css">
+
+<link rel="stylesheet" href="/css/prism.css">
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Fkbug" />
+
+
+
+
+<script src="/js/prism.js" async="" ></script>
+
+
+<script src="/js/btn.js" async=""></script>
+
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left">
+        <a href="/post/google/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+      </li>
+      <li class="pull-left">
+        <a href="https://www.fkbug.com">fkbug</a>
+      </li>
+      
+      
+      <li class="pull-left">
+        <a href="/categories">post</a>
+      </li>
+      
+      <li class="pull-right">
+        <a href=""><i class="fas fa-lightbulb" id="bulb_btn"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="content toc">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#高级操作符">高级操作符</a></li>
+<li><a href="#google-hacking-基础">Google Hacking 基础</a></li>
+<li><a href="#文档加工与数据库挖掘">文档加工与数据库挖掘</a></li>
+<li><a href="#google-在信息收集框架中扮演的角色">Google 在信息收集框架中扮演的角色</a></li>
+<li><a href="#搜索漏洞利用与查找目标">搜索漏洞利用与查找目标</a></li>
+<li><a href="#简单有效的安全性搜索">简单有效的安全性搜索</a></li>
+<li><a href="#跟踪搜索-web-服务器-登录入口和网络硬件">跟踪搜索 Web 服务器、登录入口和网络硬件</a></li>
+<li><a href="#用户名-口令和其它秘密信息">用户名、口令和其它秘密信息</a></li>
+<li><a href="#hacking-google-服务">Hacking Google 服务</a></li>
+<li><a href="#google-hacking-案列">Google Hacking 案列</a></li>
+<li><a href="#防卫-google-黑客">防卫 Google 黑客</a></li>
+</ul></li>
+</ul>
+</nav>
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://www.fkbug.com/post/google/">Google Hacking</a></h1>
+      <span class="post-date">Oct 13, 2018 </span>
+      <div class="post-content">
+        
+
+<p>##Google 搜索基础知识
+1. 探索 Google 的搜索界面
+2. 建立 Google 查询
+3. 使用 Google URL
+4. 总结
+5. 快速查找解决方案
+6. 网站链接
+7. 常见问题</p>
+
+<h2 id="高级操作符">高级操作符</h2>
+
+<ol>
+<li>在页面标题中搜索</li>
+<li>在网页内容里查找字符串</li>
+<li>在 URL 中查找文本</li>
+<li>把搜索精确到特定的站点</li>
+<li>搜索指定类型的文件</li>
+<li>搜索与当前网页存在链接的网页</li>
+<li>在链接文本中查找文本</li>
+<li>显示网页的缓存版本</li>
+<li>搜索数字</li>
+<li>查找在某个特定日期范围内发布的网页</li>
+<li>显示 Google 的摘要信息</li>
+<li>搜索 Groups 中新闻组帖子的作者</li>
+<li>搜索 Group 标题</li>
+<li>搜索 Google Group 主题行</li>
+<li>通过消息 ID 来查找 Group 帖子</li>
+<li>搜索股票信息</li>
+<li>显示某个术语的定义</li>
+<li>搜索电话列表</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="google-hacking-基础">Google Hacking 基础</h2>
+
+<ol>
+<li>使用缓存进行匿名浏览</li>
+<li>目录列表</li>
+<li>查找目录列表</li>
+<li>查找特定的目录</li>
+<li>查找特定的文件</li>
+<li>服务器的版本</li>
+<li>遍历技术</li>
+<li>目录遍历</li>
+<li>递增置换</li>
+<li>拓展遍历</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="文档加工与数据库挖掘">文档加工与数据库挖掘</h2>
+
+<ol>
+<li>配置文件</li>
+<li>日志文件</li>
+<li>数据库挖掘</li>
+<li>登录入口</li>
+<li>帮助文件</li>
+<li>错误消息</li>
+<li>数据库转储</li>
+<li>实际的数据库文件</li>
+<li>自动加工</li>
+<li>Google 桌面搜索</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="google-在信息收集框架中扮演的角色">Google 在信息收集框架中扮演的角色</h2>
+
+<ol>
+<li>自动搜索原则</li>
+<li>原始搜索关键字</li>
+<li>扩展搜索关键字</li>
+<li>从数据源获取数据</li>
+<li>解析数据</li>
+<li>后期处理</li>
+<li>数据挖掘的应用</li>
+<li>收集搜索关键字</li>
+<li>在 Web 上收集</li>
+<li>自行收集</li>
+<li>甜言蜜语</li>
+<li>引用者</li>
+</ol>
+
+<h2 id="搜索漏洞利用与查找目标">搜索漏洞利用与查找目标</h2>
+
+<ol>
+<li>搜索漏洞利用代码</li>
+<li>通过常见代码字符串搜索漏洞利用</li>
+<li>使用 Google 代码搜索查找代码</li>
+<li>搜索恶意软件和可执行文件</li>
+<li>搜索易受攻击的目标</li>
+<li>利用演示页面搜索目标</li>
+<li>利用源代码搜索目标</li>
+<li>利用 CGI 扫描搜索目标</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="简单有效的安全性搜索">简单有效的安全性搜索</h2>
+
+<ol>
+<li>site</li>
+<li>intitle:index.of</li>
+<li>error | warning</li>
+<li>login | logon</li>
+<li>username | userid | employee.ID| &ldquo;your username is&rdquo;</li>
+<li>password | passcode | &ldquo;your password is&rdquo;</li>
+<li>admin | administrator</li>
+<li>-ext:html -ext:htm -ext:shtml -ext:asp -ext:php</li>
+<li>inurl:temp | inurl:tmp | inurl:backup | inurl:bak</li>
+<li>intranel | help.desk</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="跟踪搜索-web-服务器-登录入口和网络硬件">跟踪搜索 Web 服务器、登录入口和网络硬件</h2>
+
+<ol>
+<li>定位并剖析 Web 服务器</li>
+<li>目录列表</li>
+<li>Web 服务器软件的错误消息</li>
+<li>应用软件错误消息</li>
+<li>默认页面</li>
+<li>默认文档</li>
+<li>示例程序</li>
+<li>定位登录入口</li>
+<li>瞄准使用 Web 的网络设备</li>
+<li>查找各种网络报告</li>
+<li>查找网络硬件</li>
+<li>快速查找解决方案</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="用户名-口令和其它秘密信息">用户名、口令和其它秘密信息</h2>
+
+<ol>
+<li>搜索用户名</li>
+<li>搜索口令</li>
+<li>搜索信用卡账号和社保号码等</li>
+<li>社保号码</li>
+<li>个人财务数据</li>
+<li>搜索其它有利可图的信息</li>
+<li>快速查找解决方案</li>
+<li>常见问题</li>
+</ol>
+
+<h2 id="hacking-google-服务">Hacking Google 服务</h2>
+
+<ol>
+<li>AJAX Search API</li>
+<li>嵌入式 Google AJAX Search API</li>
+<li>深入了解 AJAX Search</li>
+<li>攻击 AJAX Search Engine</li>
+<li>Calendar</li>
+<li>Blogger 和 Google 的 Blog Search</li>
+<li>信号警报</li>
+<li>Google Co-op</li>
+<li>Google Code</li>
+<li>SVN</li>
+<li>在线获取文件</li>
+<li>查找代码</li>
+</ol>
+
+<h2 id="google-hacking-案列">Google Hacking 案列</h2>
+
+<ol>
+<li>低级信息</li>
+<li>工具</li>
+<li>开放的网络设备</li>
+<li>开放的应用程序</li>
+<li>摄像头</li>
+<li>电话设备</li>
+<li>电源</li>
+<li>敏感信息</li>
+<li>社保号码</li>
+<li>Google 之外的信息</li>
+<li>总结</li>
+</ol>
+
+<h2 id="防卫-google-黑客">防卫 Google 黑客</h2>
+
+<ol>
+<li>完善且坚固的安全策略</li>
+<li>Web 服务器安全防护</li>
+<li>目录列表和缺失的索引文件</li>
+<li>利用 Robots.txt 阻止 Crawler</li>
+<li>NoARCHIVE: 缓存&rdquo;杀手&rdquo;</li>
+<li>NOSNIPPET: 去除摘要</li>
+<li>口令保护机制</li>
+<li>软件默认设置和程序</li>
+<li>攻击你自己的站点</li>
+<li>用 Site 操作符搜索自己的站点</li>
+<li>Gooscan</li>
+<li>Windwos 平台下的工具和 .NET 框架</li>
+<li>Athena</li>
+<li>Wikto</li>
+<li>Google Rower</li>
+<li>Google Site Indexer</li>
+<li>Advanced Dork</li>
+<li>从 Google 获取帮助</li>
+<li>总结</li>
+<li>快速查找解决方案</li>
+<li>网站链接</li>
+<li>常见问题</li>
+</ol>
+
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+      
+      <a class="btn previous " href="https://www.fkbug.com/post/programing-language/"> Programing language feathure  </a> 
+       
+      
+      <a class="btn next " href="https://www.fkbug.com/post/burpsuite/"> Burpsuite  </a> 
+      
+    </section>
+    
+    
+  </div>
+  
+  <footer>
+    <script src="//yihui.name/js/math-code.js"></script>
+    <script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:978694661@qq.com?subject="><i class="far fa-envelope"></i> Fkbug</a>
+      |
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">0.51  </a>|
+        <a href="https://github.com/IvanChou/yii.im" title="vec">Fk</a>  
+      |
+      <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>
+    </p>
+  </div>
+</footer>
+  
+
+  
+
+</body>
+
+</html>
