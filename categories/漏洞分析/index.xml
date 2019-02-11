@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>漏洞分析 on Fkbug</title>
-    <link>https://www.fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
+    <link>https://fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</link>
     <description>Recent content in 漏洞分析 on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
     
-	<atom:link href="https://www.fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>0. Base Architecture</title>
-      <link>https://www.fkbug.com/post/vulnerability/</link>
+      <link>https://fkbug.com/post/vulnerability/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
       
-      <guid>https://www.fkbug.com/post/vulnerability/</guid>
+      <guid>https://fkbug.com/post/vulnerability/</guid>
       <description>漏洞成因 个人理解，安全漏洞主要是下边两个原因导致的：
 一 是未能正确区分数据和代码
 二 是安全策略不周

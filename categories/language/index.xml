@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Language on Fkbug</title>
-    <link>https://www.fkbug.com/categories/language/</link>
+    <link>https://fkbug.com/categories/language/</link>
     <description>Recent content in Language on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
     
-	<atom:link href="https://www.fkbug.com/categories/language/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://fkbug.com/categories/language/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Programing language feathure </title>
-      <link>https://www.fkbug.com/post/programing-language/</link>
+      <link>https://fkbug.com/post/programing-language/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
       
-      <guid>https://www.fkbug.com/post/programing-language/</guid>
+      <guid>https://fkbug.com/post/programing-language/</guid>
       <description></description>
     </item>
     

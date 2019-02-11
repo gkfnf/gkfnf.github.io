@@ -3,97 +3,97 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.fkbug.com/post/vulnerability/</loc>
+    <loc>https://fkbug.com/post/vulnerability/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/xss/</loc>
+    <loc>https://fkbug.com/post/xss/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/burpsuite/</loc>
+    <loc>https://fkbug.com/post/burpsuite/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/google/</loc>
+    <loc>https://fkbug.com/post/google/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/programing-language/</loc>
+    <loc>https://fkbug.com/post/programing-language/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/sql_injection/</loc>
+    <loc>https://fkbug.com/post/sql_injection/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/categories/</loc>
+    <loc>https://fkbug.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/contact/</loc>
+    <loc>https://fkbug.com/contact/</loc>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/faq/</loc>
+    <loc>https://fkbug.com/faq/</loc>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/</loc>
-    <lastmod>2018-10-13T22:04:55+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.fkbug.com/categories/info-gathering/</loc>
+    <loc>https://fkbug.com/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/categories/language/</loc>
+    <loc>https://fkbug.com/categories/info-gathering/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/post/</loc>
+    <loc>https://fkbug.com/categories/language/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/categories/sql-injection/</loc>
+    <loc>https://fkbug.com/post/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.fkbug.com/categories/tools/</loc>
+    <loc>https://fkbug.com/categories/sql-injection/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/categories/xss/</loc>
+    <loc>https://fkbug.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/categories/tools/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</loc>
+    <loc>https://fkbug.com/categories/xss/</loc>
+    <lastmod>2018-10-13T22:04:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</loc>
     <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>

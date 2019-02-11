@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tools on Fkbug</title>
-    <link>https://www.fkbug.com/categories/tools/</link>
+    <link>https://fkbug.com/categories/tools/</link>
     <description>Recent content in Tools on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
     
-	<atom:link href="https://www.fkbug.com/categories/tools/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://fkbug.com/categories/tools/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Burpsuite </title>
-      <link>https://www.fkbug.com/post/burpsuite/</link>
+      <link>https://fkbug.com/post/burpsuite/</link>
       <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
       
-      <guid>https://www.fkbug.com/post/burpsuite/</guid>
+      <guid>https://fkbug.com/post/burpsuite/</guid>
       <description>HTTP 抓包工具
 为了更直观的理解上边这个交互过程，我们先充值一波信仰：
 充值信仰，获得神器 Burpsuite 1.72 专业版：https://pan.baidu.com/s/1em6zsJU-QydKHWxu_4hcvw
