@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title> Contact &middot; Fkbug </title>
+  <title> CVE-2018-20250 --&gt; WinRAR RCE &middot; Fkbug </title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -41,7 +41,7 @@
       
       
       <li class="pull-left">
-        <a href="/contact/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+        <a href="/post/cve201820250/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
       </li>
       <li class="pull-left">
         <a href="https://fkbug.com">fkbug</a>
@@ -59,39 +59,65 @@
   </nav>
 </header>
 
-  <div class="content">
+  <div class="content wide">
+    
+    
     <section class="post">
-      <h1 class="post-title"><a href="https://fkbug.com/contact/">Contact</a></h1>
+      <h1 class="post-title"><a href="https://fkbug.com/post/cve201820250/">CVE-2018-20250 --&gt; WinRAR RCE</a></h1>
+      <span class="post-date">Jan 1, 0001 </span>
       <div class="post-content">
         
 
-<h1 id="we-are-here-to-help-you">We are here to help you</h1>
+<h2 id="效果">效果</h2>
 
-<p>Are you curious about something? Do you have some kind of problem with our products? As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built gay party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.</p>
+<blockquote>
+<p>当对恶意的 <code>.rar</code> 压缩包进行 <strong>双击解压</strong> 或 <strong>解压到当前目录</strong> 时，恶意的压缩包可以释放恶意文件到<code>Windows</code>系统启动项， 在系统 <strong>重启后执行任意代码</strong>。</p>
+</blockquote>
 
-<p>Please feel free to contact us, our customer service center is working for you <sup>24</sup>&frasl;<sub>7</sub>.</p>
+<p><strong>Ref:</strong> &nbsp; <a href="https://research.checkpoint.com/extracting-code-execution-from-winrar/">https://research.checkpoint.com/extracting-code-execution-from-winrar/</a></p>
+
+<p>受影响版本:  <code>Version</code> <strong>&lt; 5.70</strong></p>
+
+<h2 id="成因">成因</h2>
+
+<blockquote>
+<p>WinRar  解析 <strong>ACE</strong> 压缩格式的库 <strong>UNACEV2.dll</strong> 自从 19 年前就没更新过了, 而该库未开启 <strong>ASLR</strong> 及 <strong>DEP</strong> 等保护措施，且 <strong>对文件路径的处理逻辑</strong> 存在安全隐患</p>
+</blockquote>
+
+<p>背景知识：
+
+
+
+
+
+
+
+  <iframe
+    class="shengxiang"
+    width="800"
+    height="450"
+    scrolling="no"
+    frameborder="0"
+    allowfullscreen
+    src="https://ppt.baomitu.com/embed/adab6b4a?style=light">
+  </iframe>
+
+
+</p>
+
+<p>我们来看一下 <strong>UNACEV2.dll</strong> :</p>
 
       </div>
-      
-      
-<hr />
-<div id="formspree" class='formspree'>
-  <h2>CONTACT ME</h2>
-  <form action="https://formspree.io/978694661@qq.com" method="POST">
-    <input type="text" name="_gotcha" style="display:none" />
-    <input type="hidden" name="subject" value="comment to: Contact">
-    <input type="email" name="email" placeholder="Your email" required>
-    <textarea name="message" placeholder="Your message" rows=5 required></textarea>
-    <button type="submit">Send</button>
-  </form>
-</div>
-
-
+    </section>
+    
+    <section class="pagination clearfix">
+       
       
     </section>
     
     
   </div>
+  
   <footer>
 <script src="//yihui.name/js/math-code.js"></script>
 <script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -107,8 +133,8 @@
   </div>
 </footer>
   
-  
 
+  
 
 </body>
 
