@@ -6,6 +6,7 @@
     <description>Recent content on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://fkbug.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,14 +14,17 @@
     <item>
       <title>CVE-2018-20250 --&gt; WinRAR RCE</title>
       <link>https://fkbug.com/post/cve201820250/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://fkbug.com/post/cve201820250/</guid>
       <description>效果  当对恶意的 .rar 压缩包进行 双击解压 或 解压到当前目录 时，恶意的压缩包可以释放恶意文件到Windows系统启动项， 在系统 重启后执行任意代码。
  Ref: &amp;nbsp; https://research.checkpoint.com/extracting-code-execution-from-winrar/
-受影响版本: Version &amp;lt; 5.70
-成因  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
- 背景知识：  我们来看一下 UNACEV2.dll :</description>
+受影响软件:
+ Winrar &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 5.70 Bandizip &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 6.21 2345 好压 &amp;nbsp;&amp;nbsp;&amp;lt; 5.9.8 360 压缩 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 4.1180 。。。  成因  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
+ 背景知识：  UNACEV2.dll 中的漏洞代码: 首先在 IDA 里边看看这个DLL 的基本信息可以发现, 导出的一些函数:
+然后可以使用 GitPrey 来搜索导出函数 ACEInitDll 来寻找相关的开源项目尝试获取更多信息:
+ GitPrey 安装及配置：
+ 通过关键词搜索相关项目:</description>
     </item>
     
     <item>

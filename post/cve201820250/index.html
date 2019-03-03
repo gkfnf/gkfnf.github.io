@@ -64,7 +64,7 @@
     
     <section class="post">
       <h1 class="post-title"><a href="https://fkbug.com/post/cve201820250/">CVE-2018-20250 --&gt; WinRAR RCE</a></h1>
-      <span class="post-date">Jan 1, 0001 </span>
+      <span class="post-date">Feb 20, 2019 </span>
       <div class="post-content">
         
 
@@ -76,7 +76,15 @@
 
 <p><strong>Ref:</strong> &nbsp; <a href="https://research.checkpoint.com/extracting-code-execution-from-winrar/">https://research.checkpoint.com/extracting-code-execution-from-winrar/</a></p>
 
-<p>受影响版本:  <code>Version</code> <strong>&lt; 5.70</strong></p>
+<p>受影响软件:</p>
+
+<ul>
+<li><code>Winrar</code>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt; 5.70</strong></li>
+<li><code>Bandizip</code> &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt; 6.21</strong></li>
+<li><code>2345 好压</code> &nbsp;&nbsp;<strong>&lt; 5.9.8</strong></li>
+<li><code>360 压缩</code> &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt; 4.1180</strong></li>
+<li><code>。。。</code></li>
+</ul>
 
 <h2 id="成因">成因</h2>
 
@@ -105,7 +113,28 @@
 
 </p>
 
-<p>我们来看一下 <strong>UNACEV2.dll</strong> :</p>
+<h3 id="unacev2-dll-中的漏洞代码"><strong>UNACEV2.dll</strong> 中的漏洞代码:</h3>
+
+<p>首先在 <strong>IDA</strong> 里边看看这个<strong>DLL</strong> 的基本信息可以发现, 导出的一些函数:</p>
+
+<p><img src="/images/cve201820250/UNACEV2_0.png" alt="导出表" /></p>
+
+<p>然后可以使用 <strong>GitPrey</strong> 来搜索导出函数 <strong>ACEInitDll</strong> 来寻找相关的开源项目尝试获取更多信息:</p>
+
+<ul>
+<li><p>GitPrey 安装及配置：</p></li>
+
+<li><p>通过关键词搜索相关项目:</p>
+
+<p><img src="/images/cve201820250/GitPrey1.png" alt="ACEInitDll_Relate" /></p></li>
+</ul>
+
+<p>随便选个相关项目在里边找找, 可以看到找到了 UNACEV2.dll 的一些头文件：</p>
+
+<p><img src="/images/cve201820250/UNACEV2_1.png" alt="UNACEV2.dll" /></p>
+
+<p>读一读注释, 然后在 <strong>IDA</strong> 里边再加载一下找到的头文件：
+<img src="/images/cve201820250/IDA_LoadFile.png" alt="IDA_LoadFile" /></p>
 
       </div>
     </section>
