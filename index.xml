@@ -12,19 +12,30 @@
     
     
     <item>
-      <title>CVE-2018-20250 --&gt; WinRAR RCE</title>
+      <title>CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现</title>
       <link>https://fkbug.com/post/cve201820250/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://fkbug.com/post/cve201820250/</guid>
-      <description>效果  当对恶意的 .rar 压缩包进行 双击解压 或 解压到当前目录 时，恶意的压缩包可以释放恶意文件到Windows系统启动项， 在系统 重启后执行任意代码。
+      <description>效果  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
+隐患后果:
+当对恶意的 .rar 压缩包进行 双击解压 或 解压到当前目录 时，恶意的压缩包可以释放恶意文件到Windows系统启动项， 在系统 重启后执行任意代码。
  Ref: &amp;nbsp; https://research.checkpoint.com/extracting-code-execution-from-winrar/
 受影响软件:
- Winrar &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 5.70 Bandizip &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 6.21 2345 好压 &amp;nbsp;&amp;nbsp;&amp;lt; 5.9.8 360 压缩 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 4.1180 。。。  成因  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
- 背景知识：  UNACEV2.dll 中的漏洞代码: 首先在 IDA 里边看看这个DLL 的基本信息可以发现, 导出的一些函数:
-然后可以使用 GitPrey 来搜索导出函数 ACEInitDll 来寻找相关的开源项目尝试获取更多信息:
- GitPrey 安装及配置：
- 通过关键词搜索相关项目:</description>
+ Winrar &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 5.70 Bandizip &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 6.21 2345 好压 &amp;nbsp;&amp;nbsp;&amp;lt; 5.9.8 360 压缩 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 4.1180 。。。  背景知识：  怎么被挖出来的？ 1. 信息搜集  通过原文可知，该漏洞的研究人员首先做了很多的信息搜集工作
+下面是我按照个人的想法做的信息搜集
+ 基本信息搜集:
+ 程序功能:
+ WinRar 是一款压缩软件，主要用于文件的压缩解压 WinRar 带有图形界面，未注册版本会弹广告 帮助文档  输入点分析:</description>
+    </item>
+    
+    <item>
+      <title>Shell manual</title>
+      <link>https://fkbug.com/post/shellmanual/</link>
+      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      
+      <guid>https://fkbug.com/post/shellmanual/</guid>
+      <description>1. 文件 touch file 创建空白文件: rm -rf 目录名 不提示删除非空目录: dos2unix windows 文本转 linux 文本: unix2dos linux 文本转 windows 文本: enca filename 查看编码: 安装 yum install -y enca md5sum 查看 md5 值: ln 源文件 目标文件 硬链接 ln -s 源文件 目标文件 符号链接 readlink -f /data 查看链接真实目录 cat file | n1 | less 查看上下翻页且显示行号 q 退出 head 查看文件开头内容 head -c 10m 截取文件中 10m 内容 split -C 10M 将文件切割大小为 10m tail -f file 查看结尾 监视日志文件 file 检查文件类型 umask 更改默认权限 uniq 删除重复的行 uniq -c 重复的行出现次数 uniq -u 只显示不重复行 paste a b 将两个文件合并并用 tab 键分隔开 paste -d&#39;+&#39;a b 将两个文件合并并指定&#39;+&#39;符号隔开 paste -s a 将多行数据合并到一行并用 tab 键隔开 chattr +i /etc/passwd 设置不可改变位 more 向下分面器 locate 字符串 搜索 wc -l file 查看行数 cp filename{,.</description>
     </item>
     
     <item>

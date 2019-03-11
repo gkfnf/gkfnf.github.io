@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title> CVE-2018-20250 --&gt; WinRAR RCE &middot; Fkbug </title>
+  <title> CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现 &middot; Fkbug </title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -63,7 +63,7 @@
     
     
     <section class="post">
-      <h1 class="post-title"><a href="https://fkbug.com/post/cve201820250/">CVE-2018-20250 --&gt; WinRAR RCE</a></h1>
+      <h1 class="post-title"><a href="https://fkbug.com/post/cve201820250/">CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现</a></h1>
       <span class="post-date">Feb 20, 2019 </span>
       <div class="post-content">
         
@@ -71,6 +71,10 @@
 <h2 id="效果">效果</h2>
 
 <blockquote>
+<p>WinRar  解析 <strong>ACE</strong> 压缩格式的库 <strong>UNACEV2.dll</strong> 自从 19 年前就没更新过了, 而该库未开启 <strong>ASLR</strong> 及 <strong>DEP</strong> 等保护措施，且 <strong>对文件路径的处理逻辑</strong> 存在安全隐患</p>
+
+<p>隐患后果:</p>
+
 <p>当对恶意的 <code>.rar</code> 压缩包进行 <strong>双击解压</strong> 或 <strong>解压到当前目录</strong> 时，恶意的压缩包可以释放恶意文件到<code>Windows</code>系统启动项， 在系统 <strong>重启后执行任意代码</strong>。</p>
 </blockquote>
 
@@ -86,13 +90,8 @@
 <li><code>。。。</code></li>
 </ul>
 
-<h2 id="成因">成因</h2>
+<h2 id="背景知识">背景知识：</h2>
 
-<blockquote>
-<p>WinRar  解析 <strong>ACE</strong> 压缩格式的库 <strong>UNACEV2.dll</strong> 自从 19 年前就没更新过了, 而该库未开启 <strong>ASLR</strong> 及 <strong>DEP</strong> 等保护措施，且 <strong>对文件路径的处理逻辑</strong> 存在安全隐患</p>
-</blockquote>
-
-<p>背景知识：
 
 
 
@@ -111,40 +110,195 @@
   </iframe>
 
 
-</p>
 
-<h3 id="unacev2-dll-中的漏洞代码"><strong>UNACEV2.dll</strong> 中的漏洞代码:</h3>
 
-<p>首先在 <strong>IDA</strong> 里边看看这个<strong>DLL</strong> 的基本信息可以发现, 导出的一些函数:</p>
+<h2 id="怎么被挖出来的">怎么被挖出来的？</h2>
 
-<p><img src="/images/cve201820250/UNACEV2_0.png" alt="导出表" /></p>
+<h3 id="1-信息搜集">1. 信息搜集</h3>
 
-<p>然后可以使用 <strong>GitPrey</strong> 来搜索导出函数 <strong>ACEInitDll</strong> 来寻找相关的开源项目尝试获取更多信息:</p>
+<blockquote>
+<p>通过原文可知，该漏洞的研究人员首先做了很多的信息搜集工作</p>
+
+<p>下面是我按照个人的想法做的信息搜集</p>
+</blockquote>
+
+<p>基本信息搜集:</p>
 
 <ul>
-<li><p>GitPrey 安装及配置：</p></li>
+<li><p>程序功能:</p>
+
+<ol>
+<li>WinRar 是一款压缩软件，主要用于文件的压缩解压</li>
+<li>WinRar 带有图形界面，未注册版本会弹广告</li>
+<li>帮助文档</li>
+</ol></li>
+
+<li><p>输入点分析:</p>
+
+<ol>
+<li>WinRar 解压文件的时候被解压文件是一个我们可控的输入点，可以说是最明显的攻击面</li>
+<li>WinRar 加载广告的链接是否可被劫持?</li>
+</ol></li>
+</ul>
+
+<p>程序架构分析:</p>
+
+<ul>
+<li>目录文件分析:<br />
+
+<ol>
+<li>配置文件?</li>
+<li>依赖的库?有没有开源的?能否找到源码?</li>
+</ol></li>
+<li>程序结构分析：
+
+<ol>
+<li>开发语言?</li>
+<li>运行逻辑?</li>
+<li>程序的运行保护?</li>
+</ol></li>
+</ul>
+
+<p>过往漏洞分析：
+<img src="/images/cve201820250/winrar_vul.png" alt="winrar_vul" /></p>
+
+<blockquote>
+<p>通过上边的信息搜集工作，可以了解很多东西.</p>
+</blockquote>
+
+<ul>
+<li>比如 winrar 支持很多压缩格式，那么在解析这些格式的时候会不会存在问题？</li>
+<li>然后看依赖的库可以知道，有 <code>7zxa.dll</code> <code>UNACEV2.dll</code>, 那么可以对这些库做更进一步的信息搜集分析.</li>
+<li>通过阅读帮助文档可以知道可以在命令行模式下运行 <code>winrar</code>, 那么这是否可以方便我们模糊测试呢?</li>
+<li>而通过过往漏洞，也可以看出很多问题, 比如 SFX 配置文件曾经存在过溢出，在处理文件名，文件路径的时候出过很多问题，说明这是这个程序很脆弱的一个地方。甚至可以更进一步，对这些漏洞进行分析，看程序修补后是否仍存在问题。</li>
+<li>而看程序的内存保护可以让我们更清楚的知道哪些地方是更容易被利用的。</li>
+</ul>
+
+<h3 id="2-攻击面确定">2. 攻击面确定</h3>
+
+<blockquote>
+<p>通过上边的信息搜集可以知道， <code>UNACEV2.dll</code> 是用来解析一种 <code>.ACE</code>压缩格式的库, 甚至连 <code>DEP</code> 都没开启，也就说输入也是我们可控的，可以说这是完美的着手点</p>
+</blockquote>
+
+<h3 id="3-攻击面分析">3. 攻击面分析</h3>
+
+<blockquote>
+<p>确定攻击面以后我们可以做更进一步的信息搜集与分析工作</p>
+</blockquote>
+
+<h4 id="对-ace-文件格式的信息搜集分析">对 ACE 文件格式的信息搜集分析:</h4>
+
+<ul>
+<li><strong>Google</strong> 一下找到 :<a href="https://en.wikipedia.org/wiki/ACE_(compressed_file_format">https://en.wikipedia.org/wiki/ACE_(compressed_file_format</a>)</li>
+<li>换下关键词 <code>ace archive format github</code> 找到: <a href="https://github.com/droe/acefile">https://github.com/droe/acefile</a></li>
+<li>再二进制分析一下基本就齐活了：</li>
+</ul>
+
+
+
+
+
+
+
+
+  <iframe
+    class="shengxiang"
+    width="800"
+    height="450"
+    scrolling="no"
+    frameborder="0"
+    allowfullscreen
+    src="https://ppt.baomitu.com/embed/7c7dfbd1?style=dark">
+  </iframe>
+
+
+
+
+<h4 id="对-unacev2-dll-简单逆向分析">对 <strong>UNACEV2.dll</strong> 简单逆向分析:</h4>
+
+<ul>
+<li><p>在 <strong>IDA</strong> 里边看看这个<strong>DLL</strong> 的基本信息可以发现, 导出的一些函数:</p>
+
+<p><img src="/images/cve201820250/UNACEV2_0.png" alt="导出表" /></p></li>
+
+<li><p>然后可以使用 <strong>GitPrey</strong> 来搜索导出函数 <strong>ACEInitDll</strong> 来寻找相关的开源项目尝试获取更多信息:</p>
+
+<ol>
+<li><p>GitPrey 安装及配置： <a href="https://github.com/repoog/GitPrey">https://github.com/repoog/GitPrey</a></p>
+
+<p><img src="/images/cve201820250/GitPrey2.png" alt="Gitprey" /></p></li>
 
 <li><p>通过关键词搜索相关项目:</p>
 
 <p><img src="/images/cve201820250/GitPrey1.png" alt="ACEInitDll_Relate" /></p></li>
+
+<li><p>随便选个相关项目在里边找找, 可以看到找到了 UNACEV2.dll 的一些头文件：</p>
+
+<p><img src="/images/cve201820250/UNACEV2_1.png" alt="UNACEV2.dll" /></p></li>
+
+<li><p>读一读注释, 然后在 <strong>IDA</strong> 里边再加载一下找到的头文件：
+<img src="/images/cve201820250/IDA_LoadFile.png" alt="IDA_LoadFile" /></p></li>
+</ol></li>
 </ul>
 
-<p>随便选个相关项目在里边找找, 可以看到找到了 UNACEV2.dll 的一些头文件：</p>
+<blockquote>
+<p>通过对攻击面的信息搜集分析，我们接下来可以比较轻松的做更进一步的逆向，以便梳理出 <code>ace</code> 压缩格式的处理逻辑</p>
 
-<p><img src="/images/cve201820250/UNACEV2_1.png" alt="UNACEV2.dll" /></p>
+<p>或者也可以依据帮助文档，对 <code>WinRar</code> 主程序进行逆向， <strong>Patch</strong> 掉一些界面、报错等代码，收集一些压缩格式的模糊测试样本</p>
 
-<p>读一读注释, 然后在 <strong>IDA</strong> 里边再加载一下找到的头文件：
-<img src="/images/cve201820250/IDA_LoadFile.png" alt="IDA_LoadFile" /></p>
+<p>以便着手开始模糊测试。</p>
+</blockquote>
+
+<h3 id="4-模糊测试">4. 模糊测试</h3>
+
+<p><code>WinAFL</code> Fuzz 环境搭建:</p>
+
+
+
+
+
+
+
+
+  <iframe
+    class="shengxiang"
+    width="800"
+    height="450"
+    scrolling="no"
+    frameborder="0"
+    allowfullscreen
+    src="https://ppt.baomitu.com/embed/4da3bada?style=dark">
+  </iframe>
+
+
+
 
       </div>
     </section>
     
     <section class="pagination clearfix">
+      
+      <a class="btn previous " href="https://fkbug.com/post/shellmanual/"> Shell manual </a> 
        
       
     </section>
     
-    
+     
+ <div class="comments">
+   <script src= "https://utteranc.es/client.js"
+         repo= "gkfnf/utterances"
+         issue-term= "pathname"
+         theme= "github-light"
+         crossorigin="anonymous"
+         async>
+   </script>
+ </div>
+
+
+
+
+
+
   </div>
   
   <footer>

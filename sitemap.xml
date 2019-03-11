@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://fkbug.com/post/shellmanual/</loc>
+    <lastmod>2018-10-13T22:04:55+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://fkbug.com/categories/</loc>
     <priority>0</priority>
   </url>
@@ -23,6 +28,12 @@
   <url>
     <loc>https://fkbug.com/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/categories/language/</loc>
+    <lastmod>2018-10-13T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
