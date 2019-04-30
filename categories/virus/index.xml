@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Fkbug</title>
-    <link>https://fkbug.com/</link>
-    <description>Recent content on Fkbug</description>
+    <title>Virus on Fkbug</title>
+    <link>https://fkbug.com/categories/virus/</link>
+    <description>Recent content in Virus on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Feb 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://fkbug.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://fkbug.com/categories/virus/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -38,44 +38,6 @@
 后来发展出了主防，所谓的主动防御其实就是 360 这些老流氓对操作系统内核做了 Hook，然后在内核的一些敏感 api 里边进行检测来鉴别当前行为是否适当，当然这也是各种杀软经常卸载不了的原因。同样，流氓软件的主页劫持这些也是通过加载驱动进行 Hook 来做的。那么这时候写病毒要怎么绕过杀软呢？
 那时候最普遍的做法是利用一些 Widows 未导出的 api，就是去看 Wrk 或者参照 Win2000的源码，对比逆向内核文件，去找一些杀软没Hook过的 api，这也导致后边杀软Hook 的 api 越来越多，内核都被搞成筛子了，而病毒或者流氓软件也发展出了内核重载这样的技术，这方面的攻防一度让 Windows 系统变得极不稳定，所以后边 Win10 的时候微软直接出了新的补丁，加了许多内存保护机制，只要杀软做太多的Hook就被直接吊销签名。
 为了解决这个问题，杀软发展出了利用 VT 技术占坑来防御，就是 360 的那个所谓的核晶防御，对这种防御方式的最简单的理解就是。 系统进 Bios 后先加载 360 的VT内核，运行在最高权限 Ring0，然后去加载操作系统内核，操作系统跑在 Ring3 权限，这样就相当于操作系统被当成一个虚拟机跑在 360 里边，所以对各种行为的监控就很简单了。这也是 360 经常说他又捕获了某某样本，某某在野 0Day 的原因。</description>
-    </item>
-    
-    <item>
-      <title>CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现</title>
-      <link>https://fkbug.com/post/cve201820250/</link>
-      <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://fkbug.com/post/cve201820250/</guid>
-      <description>效果  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
-隐患后果:
-当对恶意的 .rar 压缩包进行 双击解压 或 解压到当前目录 时，恶意的压缩包可以释放恶意文件到Windows系统启动项， 在系统 重启后执行任意代码。
- Ref: &amp;nbsp; https://research.checkpoint.com/extracting-code-execution-from-winrar/
-受影响软件:
- Winrar &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 5.70 Bandizip &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 6.21 2345 好压 &amp;nbsp;&amp;nbsp;&amp;lt; 5.9.8 360 压缩 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt; 4.1180 。。。  背景知识：  怎么被挖出来的？ 1. 信息搜集  通过原文可知，该漏洞的研究人员首先做了很多的信息搜集工作
-下面是我按照个人的想法做的信息搜集
- 基本信息搜集:
- 程序功能:
- WinRar 是一款压缩软件，主要用于文件的压缩解压 WinRar 带有图形界面，未注册版本会弹广告 帮助文档  输入点分析:</description>
-    </item>
-    
-    <item>
-      <title>Contact</title>
-      <link>https://fkbug.com/contact/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fkbug.com/contact/</guid>
-      <description>We are here to help you Are you curious about something? Do you have some kind of problem with our products? As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built gay party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.
-Please feel free to contact us, our customer service center is working for you 24&amp;frasl;7.</description>
-    </item>
-    
-    <item>
-      <title>FAQ</title>
-      <link>https://fkbug.com/faq/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fkbug.com/faq/</guid>
-      <description>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-1. WHAT TO DO IF I HAVE STILL NOT RECEIVED THE ORDER? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</description>
     </item>
     
   </channel>

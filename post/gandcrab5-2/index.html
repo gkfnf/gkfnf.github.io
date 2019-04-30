@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> 以病毒作者视角分析 GandCrab_V5.2 Ransomware &middot; Fkbug </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.51" />
+
+
+
+
+<link rel="stylesheet" href="/css/vec.min.css">
+
+<link rel="stylesheet" href="/css/prism.css">
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Fkbug" />
+
+
+
+
+<script src="/js/prism.js" async="" ></script>
+
+
+<script src="/js/btn.js" async=""></script>
+
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left">
+        <a href="/post/gandcrab5-2/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+      </li>
+      <li class="pull-left">
+        <a href="https://fkbug.com">fkbug</a>
+      </li>
+      
+      
+      <li class="pull-left">
+        <a href="/categories">post</a>
+      </li>
+      
+      <li class="pull-right">
+        <a href=""><i class="fas fa-lightbulb" id="bulb_btn"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="content wide">
+    
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://fkbug.com/post/gandcrab5-2/">以病毒作者视角分析 GandCrab_V5.2 Ransomware</a></h1>
+      <span class="post-date">Feb 27, 2019 </span>
+      <div class="post-content">
+        
+
+<h2 id="如何写一个勒索病毒">如何写一个勒索病毒?</h2>
+
+<blockquote>
+<p>我们来看看一个勒索病毒要实现的功能：</p>
+</blockquote>
+
+<h3 id="正常功能">正常功能</h3>
+
+<p><strong>遍历文件:</strong></p>
+
+<p>不管什么语言，基本都是有遍历文件的api的，所以遍历文件通常调用一下api就好了，但是有时候对文件操作的api可能会被杀软拦截，所以有时候会考虑使用一些很奇葩、冷门的文件操作函数。</p>
+
+<p><strong>加密文件:</strong></p>
+
+<p>加密文件通常也是使用现成的加密算法，因为现成的加密算法方便快捷，同时为了保证加密强度，一般选用非对称加密的方式，RSA、AES，加密位数越长越好，但是为了保证加密的效率，也得进行权衡。同样，也是为了保证加密的效率，避免受害者察觉，通常采用多线程的方式，这也是为什么经常看见病毒创建互斥体的原因。</p>
+
+<p><strong>传输密钥:</strong></p>
+
+<p>当加密完文件以后，就需要考虑传输密钥的问题，作为一个勒索病毒，如果将密钥保存在本地，或者传输的过程中可以被抓包截获，那么基本是不可能收得到钱的。在前两年勒索病毒刚兴起的时候，会有一些能被直接解密，但是随着勒索病毒越来越规模化，勒索即服务越来越普遍，基本很少遇到可以直接被解密的情况了。</p>
+
+<p><strong>解密文件:</strong></p>
+
+<p>勒索病毒与以前的木马很大的不同在于，它是直接向受害者要钱的。所以也经常会有病毒直接内部就提供了解密的函数，这样受害者花钱买密钥之后就能立马解锁。而为了能安全的收钱，通常它会有自己专门的匿名服务器来接收加密后的密钥，同时为了区分这个密钥对应哪台被加密的机器，勒索病毒在开始加密前很大概率会去收集一下当前主机的信息，然后以随机数的方式生成一个 id 之类的、将密钥、机器信息绑定，以便在收取赎金的时候能很好的响应用户。</p>
+
+<blockquote>
+<p>以上，就是一个勒索病毒中与正常软件相似的功能，其实就是正常的加解密，这个在正常的软件里边都会有，就比如微信的聊天记录，就是一种加密后的缓存文件，接下来我们看看区分<strong>恶意</strong>与<strong>非恶意</strong>的地方</p>
+</blockquote>
+
+<h3 id="恶意功能">恶意功能：</h3>
+
+<p>一个勒索病毒通常需要具备下边这些恶意功能，不然完全就勒索不起来</p>
+
+<p><strong>传播自身:</strong></p>
+
+<p>要传播自身，有很多种方式，而要大规模的传播，当然就不能把自己局限在一种传播方式，所以现在的病毒基本都会利用多种传播方式，传播这部分跟渗透其实是很类似的，对服务进行弱口令爆破，对端口进行弱口令爆破，利用最新的RCE漏洞，再加上一点点社工的东西，比如图标改成文件夹的样子这种最low的，或者是钓鱼邮件，诱导受害者运行的方式。</p>
+
+<p><strong>提升权限:</strong></p>
+
+<p>当我们的病毒传播感染到了一台主机以后，通常都需要在很高的权限下运行，同时为了避免被受害者意识到恶意，还需要 Bypass UAC 等系统方面的限制。一般而言，病毒会优先利用影响特别严重的RCE，这时候不需要再提权了。但是也经常会遇到感染到目标主机以后权限不够的问题，这时候就会去调用一些提权的api，或者去利用一些提权的漏洞</p>
+
+<p><strong>规避杀软:</strong></p>
+
+<p>然后是比较关键的规避杀软这一点。</p>
+
+<p>杀软最开始的查杀机制是特征码，所以最开始的病毒随便改一下基本杀软就废了。</p>
+
+<p>后来发展出了主防，所谓的<strong>主动防御</strong>其实就是 360 这些老流氓对操作系统内核做了 <code>Hook</code>，然后在内核的一些敏感 api 里边进行检测来鉴别当前行为是否适当，当然这也是各种杀软经常卸载不了的原因。同样，流氓软件的主页劫持这些也是通过加载驱动进行 Hook 来做的。那么这时候写病毒要怎么绕过杀软呢？</p>
+
+<p>那时候最普遍的做法是利用一些 Widows 未导出的 api，就是去看 <code>Wrk</code> 或者参照 <code>Win2000</code>的源码，对比逆向内核文件，去找一些杀软没<code>Hook</code>过的 api，这也导致后边杀软<code>Hook</code> 的 api  越来越多，内核都被搞成筛子了，而病毒或者流氓软件也发展出了内核重载这样的技术，这方面的攻防一度让 Windows 系统变得极不稳定，所以后边 Win10 的时候微软直接出了新的补丁，加了许多内存保护机制，只要杀软做太多的<code>Hook</code>就被直接吊销签名。</p>
+
+<p>为了解决这个问题，杀软发展出了利用 <code>VT</code> 技术占坑来防御，就是 360 的那个所谓的核晶防御，对这种防御方式的最简单的理解就是。 系统进 <code>Bios</code> 后先加载 360 的VT内核，运行在最高权限 <code>Ring0</code>，然后去加载操作系统内核，操作系统跑在 <code>Ring3</code> 权限，这样就相当于操作系统被当成一个虚拟机跑在 360 里边，所以对各种行为的监控就很简单了。这也是 360 经常说他又捕获了某某样本，某某在野 <code>0Day</code> 的原因。</p>
+
+<p>可能这时候就有老哥要问了，360监控得这么厉害，为什么我换成 <code>C#</code> 随便写个反弹代理，或者用<code>shellter</code> 随便加密一下就轻松免杀了？</p>
+
+<p>这是因为杀软平时的监控还是基于特征的，它是首先检测到一个文件就会先去对比它的特征库，特征库里边没有它就暂且不管了，但是我们的木马，病毒在现在就很难像hook泛滥的时候那样，通过加载驱动的方式长期驻留在系统里边了。基本就只能做到一时免杀，一方面是因为它的特征库会不断更新，它会定期去检测，另一方面也是恶意的行为会慢慢被它监控到。这也是现在很少听说哪个病毒能潜藏个几年的原因。</p>
+
+<p><strong>隐藏自身</strong></p>
+
+<p>杀软的各种监控就引出来病毒如何隐藏自己，或者说维持这个问题。</p>
+
+<p>首先是文件方面的隐藏，最 Low 的是修改自身文件为隐藏属性，目前用得最普遍还是所谓的无文件落地，无文件落地其实就是利用脚本引擎去加载恶意的脚本代码，比如宏病毒去加载 <code>Powershell</code> 这种，或者利用 Chrome 去执行 <code>Js</code>之类的。通过利用脚本语言修改注册表，或者是加载到内存驻留，这样就不会对硬盘进行文件写入，轻松的避开文件扫描。</p>
+
+<p>然后是进程方面的隐藏或者保护，以前比较普遍的做法就是病毒也加载驱动，病毒的驱动也对操作系统进行<code>Hook</code>，达到长期隐藏的目的。这也是为什么恶意软件会有一个叫法叫 <code>Rootkit</code> 的原因。还有一些比较普遍的隐藏或者说保护自身的办法，还有修改注册表，守护进程，傀儡进程，白加黑，或对系统进程注入等，还有那种最<code>Low</code> 的，病毒进程名取得跟系统进程差不多，熊猫烧香就属于这种。</p>
+
+<p><strong>恶心分析人员</strong></p>
+
+<p>最后是如何去恶心那些病毒分析人员。我是把它主要分三类把，</p>
+
+<ul>
+<li><p>反虚拟机</p>
+
+<p>一旦检测到运行在虚拟机里边就结束自己之类的，这样避免在沙盒里边就被检测到了。像Virustotal每天都会上传许多病毒上去，所以反虚拟机也是比较重要的。</p></li>
+
+<li><p>混淆</p>
+
+<p>对于编译型语言而言，混淆可以称作反反编译，原理就是利用反汇编软件是从上到下线性解析的特性，修改汇编指令，让反编译引擎解析出错。而对于一些利用脚本引擎的病毒，则经常是进行混淆来保护自身，增大被分析难度</p></li>
+
+<li><p>反调试</p>
+
+<p>反调试又可以分为静态的和动态的。静态的主要就是检测调试器，利用调试相关的一些api啊标志位啊数据结构之类的，静态的就属于你不知道你就分析不了，你知道了那么静态的就一点用都没有那种。</p>
+
+<p>而动态的就不一样，是确确实实的恶心人的。像指令加花、代码乱序、代码膨胀、指令动态加解密都属于此类。加花的需要弄清楚它加花的规则，乱序的可以通过写调试器脚本记录它的call，jmp对程序执行流程还原，代码膨胀的话最知名的就是vmp了，vmp的原理就是它自己定义了一套Handler来与汇编指令相对应的，你只能花大把的时间去还原它每个Handler所代表的汇编指令，通过对执行vm指令前后状态进行对比，慢慢的还原出来。当然，壳一般也不是仅仅只有一种反调试方式。</p></li>
+</ul>
+
+<blockquote>
+<p>但是一般来说，病毒不会直接去用壳这种保护方式。因为壳的特征太明显，加壳就被杀软杀了。病毒会用另外一种跟壳很类似的技术。也是目前用得比较烂得，就是所谓的反射式注入。</p>
+
+<p>这里贴一个这种技术的作者的源码吧：<a href="https://github.com/stephenfewer/ReflectiveDLLInjection。">https://github.com/stephenfewer/ReflectiveDLLInjection。</a></p>
+
+<p>另外还有一个通过反射式注入实现的壳：<a href="https://github.com/EgeBalci/Amber">https://github.com/EgeBalci/Amber</a></p>
+</blockquote>
+
+<p>以上，就是关于如何写一个勒索病毒的思路。</p>
+
+<h2 id="如何分析一个勒索病毒">如何分析一个勒索病毒？</h2>
+
+<blockquote>
+<p>下面，我们按病毒分析人员的正常分析流程，来对照样本对各个功能的具体实现细节，进行一步一步的分析</p>
+</blockquote>
+
+<p>当病毒分析人员拿到一个样本，要做的第一件事就是收集一些最基本的样本信息</p>
+
+<h3 id="基本信息">基本信息</h3>
+
+<blockquote>
+<p>文件信息</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab5.png" alt="process" /></p>
+
+<blockquote>
+<p>编译信息</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab6.png" alt="process" /></p>
+
+<blockquote>
+<p>PE信息</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab7.png" alt="process" /></p>
+
+<p>看完样本基本信息以后，我们就知道首先得脱掉样本 UPX 的壳，然后得重点留意它的资源段</p>
+
+<h3 id="行为分析">行为分析</h3>
+
+<p>然后第二步要做的就是行为分析，这一步跟渗透的时候要做的信息搜集地位基本等同，那么这一步重点要关注哪些行为呢？</p>
+
+<blockquote>
+<p>进程行为</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab1.png" alt="process" /></p>
+
+<blockquote>
+<p>文件行为</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab9.png" alt="file" /></p>
+
+<blockquote>
+<p>注册表行为</p>
+</blockquote>
+
+<p><img src="/images/gandcrab/gandcrab8.png" alt="reg" /></p>
+
+<blockquote>
+<p>网络行为</p>
+</blockquote>
+
+<ul>
+<li><p>HTTP 请求:
+<img src="/images/gandcrab/gandcrab2.png" alt="Http" /></p></li>
+
+<li><p>CONNECTIONS:
+<img src="/images/gandcrab/gandcrab3.png" alt="Connection" /></p></li>
+
+<li><p>DNS 请求:
+<img src="/images/gandcrab/gandcrab4.png" alt="DNS" /></p></li>
+</ul>
+
+<p>有句话讲病毒分析就是行为分析，其实就是因为分析病毒的时候，一般只有先对病毒的行为有个大致的了解之后，你才能在脑子里有一个大概的映像，对于病毒会调用哪些api，实际会有哪些功能有一个猜想。那么在逆向的时候才不会两眼一抹黑，就能够猜测某个 CALL 是什么函数，某段代码块是做什么的。</p>
+
+<p>也只有行为分析完以后，才能进行更进一步的分析，而这时候就会逆序的经历病毒被编写出来的这么一个过程， 首先总难免不了会被病毒恶心一下</p>
+
+<h3 id="病毒恶意功能">病毒恶意功能</h3>
+
+<blockquote>
+<p>样本是如何恶心分析人员的？</p>
+</blockquote>
+
+<p><strong>利用不被查杀的压缩壳:</strong></p>
+
+
+
+
+
+
+
+
+  <iframe
+    class="shengxiang"
+    width="800"
+    height="450"
+    scrolling="no"
+    frameborder="0"
+    allowfullscreen
+    src="https://ppt.baomitu.com/embed/677928c7?style=dark">
+  </iframe>
+
+
+
+
+<p><strong>通过混淆来反反编译:</strong></p>
+
+<blockquote>
+<p>样本是如何规避杀软的？</p>
+</blockquote>
+
+<p><strong>反射式注入</strong></p>
+
+<blockquote>
+<p>样本是如何隐藏自身的？</p>
+</blockquote>
+
+<ul>
+<li>cmd 指令混淆</li>
+</ul>
+
+<blockquote>
+<p>样本是如何传播的？</p>
+</blockquote>
+
+<p><strong>社工技巧:</strong></p>
+
+<ul>
+<li><p>伪装图标：</p>
+
+<p><img src="/images/gandcrab/gandcrab0.png" alt="winrar_vul" /></p></li>
+
+<li><p>钓鱼邮件：</p></li>
+</ul>
+
+<p>漏洞利用：</p>
+
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+      
+      <a class="btn previous " href="https://fkbug.com/post/cve201820250/"> CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现 </a> 
+       
+      
+    </section>
+    
+     
+ <div class="comments">
+   <script src= "https://utteranc.es/client.js"
+         repo= "gkfnf/utterances"
+         issue-term= "pathname"
+         theme= "github-light"
+         crossorigin="anonymous"
+         async>
+   </script>
+ </div>
+
+
+
+
+
+
+  </div>
+  
+  <footer>
+<script src="//yihui.name/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:978694661@qq.com?subject="><i class="far fa-envelope"></i> Fkbug</a>
+      |
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">0.51  </a>|
+        <a href="https://github.com/gkfnf/gkfnf.github.io" title="Fk">Fk</a>  
+      |
+      <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>
+    </p>
+  </div>
+</footer>
+  
+
+  
+
+</body>
+
+</html>
