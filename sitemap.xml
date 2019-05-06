@@ -3,12 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://fkbug.com/post/sql_injection/</loc>
+    <lastmod>2019-04-30T22:04:55+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://fkbug.com/post/gandcrab5-2/</loc>
     <lastmod>2019-02-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://fkbug.com/post/cve201820250/</loc>
+    <lastmod>2019-02-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/post/leetcode/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -27,7 +37,7 @@
   
   <url>
     <loc>https://fkbug.com/</loc>
-    <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-30T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -39,7 +49,19 @@
   
   <url>
     <loc>https://fkbug.com/post/</loc>
-    <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-30T22:04:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/categories/programing/</loc>
+    <lastmod>2019-02-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fkbug.com/categories/sql-injection/</loc>
+    <lastmod>2019-04-30T22:04:55+08:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Apr 2019 22:04:55 +0800</lastBuildDate>
     
 	<atom:link href="https://fkbug.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SQL 注入笔记</title>
+      <link>https://fkbug.com/post/sql_injection/</link>
+      <pubDate>Tue, 30 Apr 2019 22:04:55 +0800</pubDate>
+      
+      <guid>https://fkbug.com/post/sql_injection/</guid>
+      <description> sql 基础知识 sql 语句基础 关键的表 关键的一些函数 sql 注入原理 常见 sql 注入分类  sql 注入 </description>
+    </item>
     
     <item>
       <title>以病毒作者视角分析 GandCrab_V5.2 Ransomware</title>
@@ -56,6 +65,17 @@
  基本信息搜集:
  程序功能:
  WinRar 是一款压缩软件，主要用于文件的压缩解压 WinRar 带有图形界面，未注册版本会弹广告 帮助文档  输入点分析:</description>
+    </item>
+    
+    <item>
+      <title>leetcode 刷题记录</title>
+      <link>https://fkbug.com/post/leetcode/</link>
+      <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://fkbug.com/post/leetcode/</guid>
+      <description>1. 两数之和 https://leetcode-cn.com/problems/two-sum/
+ 暴力解法: o(n^2)  class Solution: def twoSum(self, nums: List[int], target: int) -&amp;gt; List[int]: n = len(nums) for i in range(n): try: j = nums[i+1:].index(target-nums[i]) return [i, j+i+1] except Exception as e: pass  python3 执行用时: 1016ms 内存消耗: 13.6mb
+class Solution(object): def twoSum(self, nums, target): &amp;quot;&amp;quot;&amp;quot; :type nums: List[int] :type target: int :rtype: List[int] n = len(nums) # python2 中 range 必需指定范围 for i in range(0, n): try: j = nums[i+1:].</description>
     </item>
     
   </channel>

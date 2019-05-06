@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> leetcode 刷题记录 &middot; Fkbug </title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.51" />
+
+
+
+
+<link rel="stylesheet" href="/css/vec.min.css">
+
+<link rel="stylesheet" href="/css/prism.css">
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="Fkbug" />
+
+
+
+
+<script src="/js/prism.js" async="" ></script>
+
+
+<script src="/js/btn.js" async=""></script>
+
+
+</head>
+
+<body>
+  <header>
+  <nav>
+    <ul>
+      
+      
+      
+      
+      <li class="pull-left">
+        <a href="/post/leetcode/"><i class="fas fa-list-ul" id="toc_btn"></i></a>
+      </li>
+      <li class="pull-left">
+        <a href="https://fkbug.com">fkbug</a>
+      </li>
+      
+      
+      <li class="pull-left">
+        <a href="/categories">post</a>
+      </li>
+      
+      <li class="pull-right">
+        <a href=""><i class="fas fa-lightbulb" id="bulb_btn"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="content wide">
+    
+    
+    <section class="post">
+      <h1 class="post-title"><a href="https://fkbug.com/post/leetcode/">leetcode 刷题记录</a></h1>
+      <span class="post-date">Feb 20, 2019 </span>
+      <div class="post-content">
+        
+
+<h2 id="1-两数之和">1. 两数之和</h2>
+
+<p><a href="https://leetcode-cn.com/problems/two-sum/">https://leetcode-cn.com/problems/two-sum/</a></p>
+
+<ul>
+<li>暴力解法: o(n^2)</li>
+</ul>
+
+<pre><code class="language-python">class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        n = len(nums)
+        for i in range(n):
+            try:
+                j = nums[i+1:].index(target-nums[i])
+                return [i, j+i+1]
+            except Exception as e:
+                pass
+</code></pre>
+
+<p>python3 执行用时: 1016ms 内存消耗: 13.6mb</p>
+
+<pre><code class="language-python">class Solution(object):
+    def twoSum(self, nums, target):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        n = len(nums)
+        # python2 中 range 必需指定范围
+        for i in range(0, n):
+            try: 
+                j = nums[i+1:].index(target-nums[i])
+                return [i, j+i+1]
+            except Exception as e:
+                pass
+</code></pre>
+
+<p>python2 执行用时: 600ms 内存消耗: 11.7mb</p>
+
+<pre><code class="language-c">int* twoSum(int* nums, int numsSize, int target) {
+    static int ret[2] = {0};
+    for(int i = 0; i &lt; numsSize; i++) {
+        for (int j = i+1; j &lt; numsSize; j++) {
+            if (nums[i] + nums[j] == target) {
+                ret[0] = i;
+                ret[1] = j;
+                return ret;
+            }
+        }
+    }
+    ret[0] = 0;
+    ret[1] = 0;
+    return ret;
+}
+</code></pre>
+
+<p>c 执行用时: 328ms 内存消耗: 7.5mb</p>
+
+<pre><code class="language-c++">class Solution {
+    public:
+        vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+            vector&lt;int&gt; ret = {0, 0};
+            for(int i = 0; i &lt; nums.size(); i++) {
+                for(int j = i+1; j &lt; nums.size(); j++) {
+                    if (nums[i] + nums[j] == target) {
+                        ret[0] = i;
+                        ret[1] = j;
+                        return ret;
+                    } 
+                }
+            }
+            return ret;
+        }
+}
+</code></pre>
+
+<p>c++ 执行用时: 376ms 内存消耗: 9.5mb</p>
+
+<pre><code class="language-java">class Solution {
+    publc int[] twoSum(int[] nums, int target) {
+        int[] ret = {0, 0};
+        for(int i = 0; i &lt; nums.length; i++) {
+            for(int j = i+1; j &lt; nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
+                    ret[0] = i;
+                    ret[1] = j;
+                    return ret;
+                }
+            }
+        }
+        return ret;
+    }
+}
+</code></pre>
+
+<p>java 执行用时: 29ms 内存消耗: 38.5mb</p>
+
+<pre><code class="language-c#">public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+        int[] ret = {0, 0};
+        for(int i = 0; i &lt; nums.Length; i++) {
+            for(int j = i+1; j &lt; nums.Length; j++) {
+                if(nums[i] + nums[j] == target) {
+                    ret[0] = i;
+                    ret[1] = j;
+                    return ret;
+                }
+            }
+        }
+        return ret;
+    }
+}
+</code></pre>
+
+<p>c# 执行用时: 608ms 内存消耗: 28.5mb</p>
+
+<pre><code class="language-javascript">/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+ var twoSum = function(nums, target) {
+     var ret = {0, 0};
+     for(int i = 0; i &lt; nums.length; i++) {
+         for(int j = i+1; j &lt; nums.lenght; j++) {
+             if(nums[i] + nums[j] == target) {
+                 ret[0] = i;
+                 ret[1] = j;
+                 return ret;
+             }
+         }
+     }
+     return ret;
+ }
+</code></pre>
+
+      </div>
+    </section>
+    
+    <section class="pagination clearfix">
+       
+      
+      <a class="btn next " href="https://fkbug.com/post/cve201820250/"> CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现 </a> 
+      
+    </section>
+    
+    
+  </div>
+  
+  <footer>
+<script src="//yihui.name/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <div class="footer-info">
+    <p>
+      <a href="mailto:978694661@qq.com?subject="><i class="far fa-envelope"></i> Fkbug</a>
+      |
+        <a href="https://gohugo.io/" title="Hugo :: A fast and modern static website engine">0.51  </a>|
+        <a href="https://github.com/gkfnf/gkfnf.github.io" title="Fk">Fk</a>  
+      |
+      <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" title="CC BY-NC-ND 3.0">CC BY-NC-ND 3.0</a>
+    </p>
+  </div>
+</footer>
+  
+
+  
+
+</body>
+
+</html>

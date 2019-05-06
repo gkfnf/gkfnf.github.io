@@ -6,18 +6,18 @@
     <description>Recent content in Sql Injection on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Oct 2018 22:04:55 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 30 Apr 2019 22:04:55 +0800</lastBuildDate>
     
 	<atom:link href="https://fkbug.com/categories/sql-injection/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Sql-Injection 基础</title>
+      <title>SQL 注入笔记</title>
       <link>https://fkbug.com/post/sql_injection/</link>
-      <pubDate>Sat, 13 Oct 2018 22:04:55 +0800</pubDate>
+      <pubDate>Tue, 30 Apr 2019 22:04:55 +0800</pubDate>
       
       <guid>https://fkbug.com/post/sql_injection/</guid>
-      <description></description>
+      <description> sql 基础知识 sql 语句基础 关键的表 关键的一些函数 sql 注入原理 常见 sql 注入分类  sql 注入 </description>
     </item>
     
   </channel>
