@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Fkbug</title>
-    <link>https://fkbug.com/</link>
+    <link>http://fofa.run/</link>
     <description>Recent content on Fkbug</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -13,19 +13,19 @@
     
     <item>
       <title>SQL 注入笔记</title>
-      <link>https://fkbug.com/post/sql_injection/</link>
+      <link>https://fofa.run/post/sql_injection/</link>
       <pubDate>Tue, 30 Apr 2019 22:04:55 +0800</pubDate>
       
-      <guid>https://fkbug.com/post/sql_injection/</guid>
+      <guid>https://fofa.run/post/sql_injection/</guid>
       <description> sql 基础知识 sql 语句基础 关键的表 关键的一些函数 sql 注入原理 常见 sql 注入分类  sql 注入 </description>
     </item>
     
     <item>
       <title>以病毒作者视角分析 GandCrab_V5.2 Ransomware</title>
-      <link>https://fkbug.com/post/gandcrab5-2/</link>
+      <link>https://fofa.run/post/gandcrab5-2/</link>
       <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://fkbug.com/post/gandcrab5-2/</guid>
+      <guid>https://fofa.run/post/gandcrab5-2/</guid>
       <description>如何写一个勒索病毒?  我们来看看一个勒索病毒要实现的功能：
  正常功能 遍历文件:
 不管什么语言，基本都是有遍历文件的api的，所以遍历文件通常调用一下api就好了，但是有时候对文件操作的api可能会被杀软拦截，所以有时候会考虑使用一些很奇葩、冷门的文件操作函数。
@@ -51,10 +51,10 @@
     
     <item>
       <title>CVE-2018-20250 --&gt; WinRAR RCE 挖掘复现</title>
-      <link>https://fkbug.com/post/cve201820250/</link>
+      <link>https://fofa.run/post/cve201820250/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://fkbug.com/post/cve201820250/</guid>
+      <guid>https://fofa.run/post/cve201820250/</guid>
       <description>效果  WinRar 解析 ACE 压缩格式的库 UNACEV2.dll 自从 19 年前就没更新过了, 而该库未开启 ASLR 及 DEP 等保护措施，且 对文件路径的处理逻辑 存在安全隐患
 隐患后果:
 当对恶意的 .rar 压缩包进行 双击解压 或 解压到当前目录 时，恶意的压缩包可以释放恶意文件到Windows系统启动项， 在系统 重启后执行任意代码。
@@ -69,10 +69,10 @@
     
     <item>
       <title>leetcode 刷题记录</title>
-      <link>https://fkbug.com/post/leetcode/</link>
+      <link>https://fofa.run/post/leetcode/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://fkbug.com/post/leetcode/</guid>
+      <guid>https://fofa.run/post/leetcode/</guid>
       <description>1. 两数之和 https://leetcode-cn.com/problems/two-sum/
  暴力解法: o(n^2)  class Solution: def twoSum(self, nums: List[int], target: int) -&amp;gt; List[int]: n = len(nums) for i in range(n): try: j = nums[i+1:].index(target-nums[i]) return [i, j+i+1] except Exception as e: pass  python3 执行用时: 1016ms 内存消耗: 13.6mb
 class Solution(object): def twoSum(self, nums, target): &amp;quot;&amp;quot;&amp;quot; :type nums: List[int] :type target: int :rtype: List[int] n = len(nums) # python2 中 range 必需指定范围 for i in range(0, n): try: j = nums[i+1:].</description>
@@ -80,20 +80,20 @@ class Solution(object): def twoSum(self, nums, target): &amp;quot;&amp;quot;&amp
     
     <item>
       <title>Contact</title>
-      <link>https://fkbug.com/contact/</link>
+      <link>https://fofa.run/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://fkbug.com/contact/</guid>
+      <guid>https://fofa.run/contact/</guid>
       <description>We are here to help you Are you curious about something? Do you have some kind of problem with our products? As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built gay party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity.
 Please feel free to contact us, our customer service center is working for you 24&amp;frasl;7.</description>
     </item>
     
     <item>
       <title>FAQ</title>
-      <link>https://fkbug.com/faq/</link>
+      <link>https://fofa.run/faq/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://fkbug.com/faq/</guid>
+      <guid>https://fofa.run/faq/</guid>
       <description>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
 1. WHAT TO DO IF I HAVE STILL NOT RECEIVED THE ORDER? Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</description>
     </item>
